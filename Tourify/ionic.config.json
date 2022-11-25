@@ -1,0 +1,7 @@
+{
+  "name": "Tourify",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
