@@ -4,24 +4,33 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'splash',
+    pathMatch: 'full',
+  },
+  {
+    path: 'tabs',
     loadChildren: () =>
       import('./pages/tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
     path: 'splash',
-    loadChildren: () => import('./pages/splash/splash.module').then( m => m.SplashPageModule)
+    loadChildren: () =>
+      import('./pages/splash/splash.module').then((m) => m.SplashPageModule),
   },
   {
     path: 'onboard',
-    loadChildren: () => import('./pages/onboard/onboard.module').then( m => m.OnboardPageModule)
+    loadChildren: () =>
+      import('./pages/onboard/onboard.module').then((m) => m.OnboardPageModule),
   },
   {
     path: 'signup',
-    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
+    loadChildren: () =>
+      import('./pages/signup/signup.module').then((m) => m.SignupPageModule),
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () =>
+      import('./pages/login/login.module').then((m) => m.LoginPageModule),
   },
 ];
 @NgModule({

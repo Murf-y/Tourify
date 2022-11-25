@@ -4,33 +4,43 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
-        loadChildren: () => import('../tab1/tab1.module').then(m => m.Tab1PageModule)
+        path: 'home',
+        loadChildren: () =>
+          import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'map',
+        loadChildren: () =>
+          import('../map/map.module').then((m) => m.MapPageModule),
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'trips',
+        loadChildren: () =>
+          import('../trips/trips.module').then((m) => m.TripsPageModule),
+      },
+      {
+        path: 'favorite',
+        loadChildren: () =>
+          import('../favorite/favorite.module').then(
+            (m) => m.FavoritePageModule
+          ),
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
-        pathMatch: 'full'
-      }
-    ]
+        redirectTo: 'tabs/home',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
-    pathMatch: 'full'
-  }
+    redirectTo: '/tabs/home',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
