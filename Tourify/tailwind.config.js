@@ -3,6 +3,21 @@ module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
     extend: {
+      keyframes: {
+        slideup: {
+          "0%": {
+            transform: "translateY(100%)",
+            opacity: 0,
+          },
+          "100%": {
+            transform: "translateY(0)",
+            opacity: 1,
+          },
+        },
+      },
+      animation: {
+        slideup: "slideup 3s ease-in-out",
+      },
       colors: {
         primary: {
           light: "#FF5266",
@@ -23,24 +38,32 @@ module.exports = {
         },
       },
       fontFamily: {
-        // sans: [
-        //   'Nunito',
-        //   'ui-sans-serif',
-        //   'system-ui',
-        //   '-apple-system',
-        //   'BlinkMacSystemFont',
-        //   '"Segoe UI"',
-        //   'Roboto',
-        //   '"Helvetica Neue"',
-        //   'Arial',
-        //   '"Noto Sans"',
-        //   'sans-serif',
-        //   '"Apple Color Emoji"',
-        //   '"Segoe UI Emoji"',
-        //   '"Segoe UI Symbol"',
-        //   '"Noto Color Emoji"',
-        // ],
-        // serif: ['Overlock', 'ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+        sans: [
+          "Nunito",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
+          '"Helvetica Neue"',
+          "Arial",
+          '"Noto Sans"',
+          "sans-serif",
+          '"Apple Color Emoji"',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+          '"Noto Color Emoji"',
+        ],
+        serif: [
+          "Overlock",
+          "ui-serif",
+          "Georgia",
+          "Cambria",
+          '"Times New Roman"',
+          "Times",
+          "serif",
+        ],
       },
     },
   },
