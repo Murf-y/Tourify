@@ -16,7 +16,7 @@ module.exports = {
         },
       },
       animation: {
-        slideup: "slideup 3s ease-in-out",
+        slideup: "slideup 3s ease-in",
       },
       colors: {
         primary: {
@@ -37,34 +37,9 @@ module.exports = {
           DEFAULT: "#A5A7AC",
         },
       },
-      fontFamily: {
-        sans: [
-          "Nunito",
-          "ui-sans-serif",
-          "system-ui",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          '"Segoe UI"',
-          "Roboto",
-          '"Helvetica Neue"',
-          "Arial",
-          '"Noto Sans"',
-          "sans-serif",
-          '"Apple Color Emoji"',
-          '"Segoe UI Emoji"',
-          '"Segoe UI Symbol"',
-          '"Noto Color Emoji"',
-        ],
-        serif: [
-          "Overlock",
-          "ui-serif",
-          "Georgia",
-          "Cambria",
-          '"Times New Roman"',
-          "Times",
-          "serif",
-        ],
-      },
+    },
+    fontFamily: {
+      Asap: ["Asap", "cursive"],
     },
   },
   plugins: [],

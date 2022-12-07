@@ -1,9 +1,24 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>onboard</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="pt-6 flex flex-col gap-12">
+    <div class="flex items-center justify-start gap-2 ml-4">
+      <img src="assets/images/logo.svg" class="w-4" />
+      <h2 class="text-gray">Tourify</h2>
+    </div>
+    <div class="flex flex-col gap-4 justify-end ml-4">
+      <h1 class="text-xl font-medium mr-6">
+        Enjoy your holiday with <span class="text-primary">Tourify</span>
+      </h1>
+      <p class="text-xs text-gray mr-6">
+        Keep your travel very comfrtoble, easy and explore Lebanon with Tourify
+      </p>
 
+      <div class="btn btn-primary w-fit" (click)="explore()">Explore</div>
+    </div>
+  </div>
+
+  <img
+    src="assets/images/onboard.png"
+    alt="onboard"
+    class="absolute bottom-0 object-cover w-full"
+  />
 </ion-content>

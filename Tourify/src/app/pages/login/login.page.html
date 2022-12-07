@@ -1,9 +1,53 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="flex flex-col justify-between gap-8 ml-4 h-full">
+    <div>
+      <img
+        src="assets/images/register_login_top.png"
+        alt="onboard"
+        class="w-full"
+      />
 
+      <h1 class="text-xl font-medium mr-6">
+        Welcome to<br />Lebanon <span class="text-primary">explorer!</span>
+      </h1>
+    </div>
+
+    <div class="flex flex-col gap-6">
+      <ion-item class="mr-6">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          placeholder="john.smith@lau.edu"
+          inputmode="email"
+        ></ion-input>
+        <ion-note slot="error">Invalid email</ion-note>
+      </ion-item>
+      <!-- add same thing but for passsword -->
+      <ion-item class="mr-6">
+        <ion-label position="floating">Password</ion-label>
+        <ion-input placeholder="********" inputmode="password"></ion-input>
+        <ion-note slot="error">Invalid password</ion-note>
+      </ion-item>
+
+      <div class="flex justify-between items-center">
+        <p class="font-medium text-xl">Sign In</p>
+        <div
+          class="w-10 h-10 btn-primary rounded-full flex justify-center items-center mr-6"
+        >
+          <ion-icon name="arrow-forward-outline"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between mr-6 mb-6">
+      <div class="text-sm underline cursor-pointer" (click)="goToSignUp()">
+        Register
+      </div>
+      <div
+        class="text-sm underline cursor-pointer"
+        (click)="goToForgotPassword()"
+      >
+        Forgot Password?
+      </div>
+    </div>
+  </div>
 </ion-content>

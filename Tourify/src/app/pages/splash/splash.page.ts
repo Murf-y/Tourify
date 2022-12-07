@@ -12,7 +12,7 @@ export class SplashPage implements OnInit {
   // when view enter wait 5 seconds and then navigate to login page
   ngOnInit() {
     setTimeout(() => {
-      this.router.navigate(['login']);
+      this.router.navigate(['onboard']);
     }, 5000);
   }
 }
