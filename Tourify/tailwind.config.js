@@ -4,19 +4,19 @@ module.exports = {
   theme: {
     extend: {
       keyframes: {
-        slideup: {
+        slideleft: {
           "0%": {
-            transform: "translateY(100%)",
+            transform: "translateX(-100%)",
             opacity: 0,
           },
           "100%": {
-            transform: "translateY(0)",
+            transform: "translateX(0)",
             opacity: 1,
           },
         },
       },
       animation: {
-        slideup: "slideup 3s ease-in",
+        slideleft: "slideleft 0.5s ease-in",
       },
       colors: {
         primary: {

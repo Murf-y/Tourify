@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-splash',
@@ -11,8 +12,17 @@ export class SplashPage implements OnInit {
 
   // when view enter wait 5 seconds and then navigate to login page
   ngOnInit() {
-    setTimeout(() => {
-      this.router.navigate(['onboard']);
+    setTimeout(async () => {
+      if (await this.checkIfOnboarded()) {
+        this.router.navigate(['login']);
+      } else {
+        this.router.navigate(['onboard']);
+      }
     }, 5000);
   }
+
+  checkIfOnboarded = async () => {
+    const { value } = await Preferences.get({ key: 'onboarded' });
+    return value === 'true';
+  };
 }
