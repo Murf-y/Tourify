@@ -11,6 +11,11 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
+  signIn() {
+    // for now just go to tabs page
+    this.router.navigate(['/tabs']);
+  }
+
   goToSignUp() {
     this.router.navigate(['/signup']);
   }

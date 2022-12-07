@@ -14,4 +14,9 @@ export class SignupPage implements OnInit {
   goToSignIn() {
     this.router.navigate(['/login']);
   }
+
+  signUp() {
+    // for now just go to tabs page
+    this.router.navigate(['/tabs']);
+  }
 }

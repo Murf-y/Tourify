@@ -1,23 +1,61 @@
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <ion-icon name="triangle"></ion-icon>
-      <ion-label>Home</ion-label>
+<ion-tabs #tabs (ionTabsDidChange)="tabChanged($event)">
+  <ion-tab-bar slot="bottom" mode="md">
+    <ion-tab-button tab="home" [ngSwitch]="showHomeTab">
+      <div
+        class="active-rectangular flex flex-row gap-2 p-2 items-center justify-center w-max h-max"
+        *ngIf="showHomeTab; else otherHome"
+      >
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+      </div>
+      <ng-template #otherHome>
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ng-template>
     </ion-tab-button>
 
-    <ion-tab-button tab="map">
-      <ion-icon name="ellipse"></ion-icon>
-      <ion-label>Map</ion-label>
+    <ion-tab-button tab="map" [ngSwitch]="showMapTab">
+      <div
+        class="active-rectangular flex flex-row gap-2 p-2 items-center justify-center w-max h-max"
+        *ngIf="showMapTab; else otherMap"
+      >
+        <ion-icon name="map"></ion-icon>
+        <ion-label>Home</ion-label>
+      </div>
+      <ng-template #otherMap>
+        <ion-icon name="map"></ion-icon>
+        <ion-label>Map</ion-label>
+      </ng-template>
     </ion-tab-button>
 
-    <ion-tab-button tab="trips">
-      <ion-icon name="square"></ion-icon>
-      <ion-label>Trips</ion-label>
+    <ion-tab-button tab="trips" [ngSwitch]="showTripsTab">
+      <div
+        class="active-rectangular flex flex-row gap-2 p-2 items-center justify-center w-max h-max"
+        *ngIf="showTripsTab; else otherTrips"
+      >
+        <ion-icon name="calendar"></ion-icon>
+        <ion-label>Trips</ion-label>
+      </div>
+      <ng-template #otherTrips>
+        <ion-icon name="calendar"></ion-icon>
+        <ion-label>Trips</ion-label>
+      </ng-template>
     </ion-tab-button>
 
-    <ion-tab-button tab="favorite">
-      <ion-icon name="square"></ion-icon>
-      <ion-label>Favorite</ion-label>
+    <ion-tab-button tab="favorite" [ngSwitch]="showFavTab">
+      <div
+        class="active-rectangular flex flex-row gap-2 p-2 items-center justify-center w-max h-max"
+        *ngIf="showFavTab; else otherFav"
+      >
+        <ion-icon name="heart"></ion-icon>
+        <ion-label>Favorite</ion-label>
+      </div>
+      <ng-template #otherFav>
+        <ion-icon name="heart"></ion-icon>
+        <ion-label>Favorite</ion-label>
+      </ng-template>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
+
+<!-- how t -->
