@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-onboard',
@@ -11,7 +12,15 @@ export class OnboardPage implements OnInit {
 
   ngOnInit() {}
 
-  explore = () => {
+  explore = async () => {
+    await this.setOnBoarded();
     this.router.navigate(['/signup']);
+  };
+
+  setOnBoarded = async () => {
+    await Preferences.set({
+      key: 'onboarded',
+      value: 'true',
+    });
   };
 }
