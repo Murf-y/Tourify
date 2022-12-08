@@ -1,0 +1,43 @@
+<div
+  class="flex justify-start items-center gap-4 bg-gray-light w-full mb-6 shadow-md rounded-xl py-2 px-2"
+>
+  <div class="flex justify-center items-center w-[4.5rem] h-16">
+    <img
+      class="w-full h-full rounded-lg object-cover"
+      src="{{ site.image_path }}"
+      alt="card-image"
+    />
+  </div>
+  <div class="flex flex-col justify-between flex-grow h-full gap-1">
+    <div class="flex justify-between items-center">
+      <h4 class="font-medium text-sm">{{ site.name }}</h4>
+      <div
+        *ngIf="site.isFavorite; else otherFav"
+        (click)="toggleFavoriteSite()"
+        class="cursor-pointer"
+      >
+        <img src="assets/icon/card_favorite_primary.svg" alt="" />
+      </div>
+      <ng-template #otherFav>
+        <img
+          src="assets/icon/card_favorite.svg"
+          alt=""
+          (click)="toggleFavoriteSite()"
+          class="cursor-pointer"
+        />
+      </ng-template>
+    </div>
+
+    <div class="text-gray text-xs flex gap-1 items-center">
+      <img src="assets/icon/card_category.svg" alt="" />
+      <p>{{ site.category.name }}</p>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <div class="text-gray text-xs flex gap-1 items-center">
+        <img src="assets/icon/card_location.svg" alt="" />
+        <p>{{ site.location }}</p>
+      </div>
+    </div>
+  </div>
+</div>

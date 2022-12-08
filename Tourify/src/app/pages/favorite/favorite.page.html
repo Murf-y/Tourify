@@ -4,18 +4,19 @@
     <img src="assets/icon/card_favorite_primary.svg" alt="" />
   </div>
 
-  <ion-list>
-    <ion-item *ngFor="let site of sites">
-      <ion-label>
-        <h2>{{ site.name }}</h2>
-        <p>{{ site.location }}</p>
-      </ion-label>
-      <ion-icon
-        name="heart"
-        slot="end"
-        color="danger"
-        (click)="toggleFavoriteSite(site)"
-      ></ion-icon>
-    </ion-item>
+  <!-- if favoritesSites is empty display a message -->
+  <ion-list [inset]="true" *ngIf="favoritesSites.length === 0; else emptyFav">
+    >
+    <fav-site-card
+      *ngFor="let site of favoritesSites"
+      [site]="site"
+      (toggleFav)="toggleFav(site)"
+    ></fav-site-card>
   </ion-list>
+  <ng-template #emptyFav>
+    <div class="flex flex-col justify-center items-center mt-6">
+      <img src="assets/images/empty_state.jpg" alt="" />
+      <p class="text-gray text-sm mt-4">No favorite sites yet</p>
+    </div>
+  </ng-template>
 </ion-content>
