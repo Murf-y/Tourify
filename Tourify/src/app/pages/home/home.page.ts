@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Category } from 'app/models/category';
 import { Site } from 'app/models/site';
+import { User } from 'app/models/user';
 
 const enum Filter {
   All = 'all',
@@ -14,6 +16,7 @@ const enum Filter {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  user!: User;
   filter = Filter.All;
 
   sites: Site[] = [
@@ -94,7 +97,16 @@ export class HomePage implements OnInit {
     },
   ];
 
-  constructor() {}
+  constructor(private router: Router) {
+    this.user = JSON.parse(localStorage.getItem('current_user') || '{}');
+
+    // if the user is not logged in, redirect to login page
+    if (!this.user || !this.user.id) {
+      this.router.navigate(['/login']);
+    }
+
+    console.log(this.user);
+  }
 
   ngOnInit() {}
 

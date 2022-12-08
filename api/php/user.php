@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
     } else {
         // create a new user
 
-        // hash the password
-        $password = password_hash($password, PASSWORD_DEFAULT);
+        // hash the password using md5
+        $password = md5($password);
 
         $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
         $result = $connection->query($sql);
@@ -59,13 +59,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
         }
     }
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['username'])) {
-    $username = $_POST['email'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
     // check if the user exists
-    // hash the password
-    $password = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
+    // hash the password using md5
+    $password = md5($password);
+
+    $sql = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {
