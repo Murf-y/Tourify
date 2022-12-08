@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Category } from 'app/models/category';
 import { Site } from 'app/models/site';
 import { User } from 'app/models/user';
+import { CategoryCrudService } from 'app/services/categoryCrud.service';
 
 const enum Filter {
   All = 'all',
@@ -97,7 +98,10 @@ export class HomePage implements OnInit {
     },
   ];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private categoryService: CategoryCrudService
+  ) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
 
     // if the user is not logged in, redirect to login page
@@ -107,6 +111,11 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {}
+  onViewWillEnter() {
+    this.categoryService.getAll().subscribe((res) => {
+      console.log(res);
+    });
+  }
 
   segmentChanged(ev: any) {
     console.log(this.filter);
