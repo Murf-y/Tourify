@@ -4,7 +4,10 @@
       <h1 class="text-xl">Discover</h1>
     </div>
     <ion-avatar class="flex items-center">
-      <img src="assets/images/avatar.svg" class="w-10 h-10" />
+      <img
+        src="http://localhost/tourify/api/content/assets/user/avatar.svg"
+        class="w-10 h-10"
+      />
     </ion-avatar>
   </div>
 
@@ -38,25 +41,29 @@
   </div>
 
   <ion-segment
-    value="sights"
     class="mt-4 text-xs"
     scrollable="true"
     [(ngModel)]="filter"
     (ionChange)="segmentChanged($event)"
+    mode="md"
   >
-    <ion-segment-button value="sights">
-      <p class="text-[0.45rem]">sights</p>
+    <ion-segment-button value="all">
+      <p class="text-[0.6rem]">all</p>
     </ion-segment-button>
-    <ion-segment-button value="hotels">
-      <p class="text-[0.45rem]">hotels</p>
+    <ion-segment-button value="popular">
+      <p class="text-[0.6rem]">popular</p>
     </ion-segment-button>
-    <ion-segment-button value="Restaurants">
-      <p class="text-[0.45rem]">Restaurants</p>
-    </ion-segment-button>
-    <ion-segment-button value="Events">
-      <p class="text-[0.45rem]">Events</p>
+    <ion-segment-button value="latest">
+      <p class="text-[0.6rem]">latest</p>
     </ion-segment-button>
   </ion-segment>
 
-  <slider-sites-card [sites]="sites"></slider-sites-card>
+  <div class="mt-4 ml-4 flex justify-between flex-col">
+    <sights-slider
+      [sites]="sites"
+      [toggleFavorite]="toggleFavorite"
+    ></sights-slider>
+    <h2 class="font-medium text-xl">Categories</h2>
+    <categories-slider [categories]="categories"></categories-slider>
+  </div>
 </ion-content>

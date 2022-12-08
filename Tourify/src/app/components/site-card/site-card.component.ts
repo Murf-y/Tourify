@@ -8,8 +8,13 @@ import { Site } from 'app/models/site';
 })
 export class SiteCardComponent implements OnInit {
   @Input() site!: Site;
+  @Input() toggleFavorite: (site: Site) => void = () => {};
 
   constructor() {}
 
   ngOnInit() {}
+
+  toggleFavoriteSite() {
+    this.toggleFavorite(this.site);
+  }
 }

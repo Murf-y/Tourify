@@ -21,11 +21,20 @@
           <p>{{ site.location }}</p>
         </div>
 
-        <div *ngIf="site.isFavorite; else otherFav">
+        <div
+          *ngIf="site.isFavorite; else otherFav"
+          (click)="toggleFavoriteSite()"
+          class="cursor-pointer"
+        >
           <img src="assets/icon/card_favorite_primary.svg" alt="" />
         </div>
         <ng-template #otherFav>
-          <img src="assets/icon/card_favorite.svg" alt="" />
+          <img
+            src="assets/icon/card_favorite.svg"
+            alt=""
+            (click)="toggleFavoriteSite()"
+            class="cursor-pointer"
+          />
         </ng-template>
       </div>
     </div>

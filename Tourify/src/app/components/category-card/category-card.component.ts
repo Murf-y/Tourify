@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Category } from 'app/models/category';
 
 @Component({
   selector: 'category-card',
@@ -6,8 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category-card.component.scss'],
 })
 export class CategoryCardComponent implements OnInit {
-  image_path: string = 'assets/images/category_card_default_img.png';
-  category_name: string = 'Nature';
+  @Input()
+  category!: Category;
+
   constructor() {}
 
   ngOnInit() {}

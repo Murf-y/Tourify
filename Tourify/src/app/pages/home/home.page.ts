@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Category } from 'app/models/category';
 import { Site } from 'app/models/site';
 
 const enum Filter {
-  Sights = 'sights',
-  Restaurants = 'restaurants',
-  Hotels = 'hotels',
-  Nightlife = 'nightlife',
+  All = 'all',
+  Popular = 'popular',
+  Latest = 'latest',
 }
 
 @Component({
@@ -14,12 +14,12 @@ const enum Filter {
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  filter = Filter.Sights;
+  filter = Filter.All;
 
   sites: Site[] = [
     {
       id: 1,
-      name: 'The Great Wall of China',
+      name: 'The Great Wall',
       location: 'China',
       description:
         'The Great Wall of China is a series of fortifications made of stone, brick, tamped earth, wood, and other materials, generally built along an east-to-west line across the historical northern borders of China to protect the Chinese states and empires against intrusions by various nomadic groups of the Eurasian Steppe.',
@@ -27,7 +27,7 @@ export class HomePage implements OnInit {
       category: {
         id: 1,
         image_path: 'assets/images/category_card_default_img.png',
-        name: 'Sights',
+        name: 'Nature',
       },
       tags: ['sights', 'china', 'great wall'],
       isFavorite: true,
@@ -42,10 +42,55 @@ export class HomePage implements OnInit {
       category: {
         id: 1,
         image_path: 'assets/images/category_card_default_img.png',
-        name: 'Sights',
+        name: 'Nature',
       },
       tags: ['sights', 'italy', 'rome', 'colosseum'],
       isFavorite: false,
+    },
+  ];
+
+  categories: Category[] = [
+    {
+      id: 1,
+      image_path:
+        'http://localhost/tourify/api/content/assets/categories/1.png',
+      name: 'Nature',
+    },
+    {
+      id: 2,
+      image_path:
+        'http://localhost/tourify/api/content/assets/categories/2.png',
+      name: 'Parks',
+    },
+    {
+      id: 3,
+      image_path:
+        'http://localhost/tourify/api/content/assets/categories/3.png',
+      name: 'Events',
+    },
+    {
+      id: 4,
+      image_path:
+        'http://localhost/tourify/api/content/assets/categories/4.png',
+      name: 'Hotels',
+    },
+    {
+      id: 5,
+      image_path:
+        'http://localhost/tourify/api/content/assets/categories/5.png',
+      name: 'Restaurants',
+    },
+    {
+      id: 6,
+      image_path:
+        'http://localhost/tourify/api/content/assets/categories/6.png',
+      name: 'Beach',
+    },
+    {
+      id: 7,
+      image_path:
+        'http://localhost/tourify/api/content/assets/categories/7.png',
+      name: 'Camping',
     },
   ];
 
@@ -55,5 +100,9 @@ export class HomePage implements OnInit {
 
   segmentChanged(ev: any) {
     console.log(this.filter);
+  }
+
+  toggleFavorite(site: Site) {
+    site.isFavorite = !site.isFavorite;
   }
 }
