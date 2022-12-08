@@ -9,9 +9,15 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { SiteCardComponent } from 'app/components/site-card/site-card.component';
 import { CategoryCardComponent } from 'app/components/category-card/category-card.component';
+import { SliderSitesCardComponent } from 'app/components/slider-sites-card/slider-sites-card.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HomePageRoutingModule],
-  declarations: [HomePage, SiteCardComponent, CategoryCardComponent],
+  declarations: [
+    HomePage,
+    SiteCardComponent,
+    CategoryCardComponent,
+    SliderSitesCardComponent,
+  ],
 })
 export class HomePageModule {}

@@ -10,6 +10,7 @@ export class HomePage implements OnInit {
   filter = 'sights';
 
   cards = ['hello', 'world'];
+
   constructor() {}
 
   ngOnInit() {}

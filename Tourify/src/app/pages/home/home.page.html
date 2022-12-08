@@ -45,26 +45,18 @@
     (ionChange)="segmentChanged($event)"
   >
     <ion-segment-button value="sights">
-      <p class="text-[0.5rem]">sights</p>
+      <p class="text-[0.45rem]">sights</p>
     </ion-segment-button>
     <ion-segment-button value="hotels">
-      <p class="text-[0.5rem]">hotels</p>
+      <p class="text-[0.45rem]">hotels</p>
     </ion-segment-button>
     <ion-segment-button value="Restaurants">
-      <p class="text-[0.5rem]">Restaurants</p>
+      <p class="text-[0.45rem]">Restaurants</p>
     </ion-segment-button>
     <ion-segment-button value="Events">
-      <p class="text-[0.5rem]">Events</p>
+      <p class="text-[0.45rem]">Events</p>
     </ion-segment-button>
   </ion-segment>
 
-  <div class="my-4 ml-2">
-    <site-card></site-card>
-  </div>
-
-  <div class="mt-4 ml-2 flex gap-4">
-    <category-card></category-card>
-    <category-card></category-card>
-    <category-card></category-card>
-  </div>
+  <slider-sites-card></slider-sites-card>
 </ion-content>
