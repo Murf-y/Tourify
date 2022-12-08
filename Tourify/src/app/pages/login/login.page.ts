@@ -22,10 +22,9 @@ export class LoginPage implements OnInit {
     }
 
     this.userSerive.loginUser(this.email, this.password).subscribe((res) => {
-      console.log(res);
-
       // TODO show error message
       if (res.message) {
+        console.log(res);
         return;
       } else {
         window.sessionStorage.setItem(

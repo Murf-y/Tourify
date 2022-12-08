@@ -50,10 +50,9 @@ export class SignupPage implements OnInit {
     this.userSerive
       .createUser(this.username, this.email, this.password)
       .subscribe((res) => {
-        console.log(res);
-
         // TODO show error message
         if (res.message) {
+          console.log(res);
           return;
         } else {
           let user: User = res.data.user;

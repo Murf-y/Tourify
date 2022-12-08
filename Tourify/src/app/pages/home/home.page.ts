@@ -53,50 +53,7 @@ export class HomePage implements OnInit {
     },
   ];
 
-  categories: Category[] = [
-    {
-      id: 1,
-      image_path:
-        'http://localhost/tourify/api/content/assets/categories/1.png',
-      name: 'Nature',
-    },
-    {
-      id: 2,
-      image_path:
-        'http://localhost/tourify/api/content/assets/categories/2.png',
-      name: 'Parks',
-    },
-    {
-      id: 3,
-      image_path:
-        'http://localhost/tourify/api/content/assets/categories/3.png',
-      name: 'Events',
-    },
-    {
-      id: 4,
-      image_path:
-        'http://localhost/tourify/api/content/assets/categories/4.png',
-      name: 'Hotels',
-    },
-    {
-      id: 5,
-      image_path:
-        'http://localhost/tourify/api/content/assets/categories/5.png',
-      name: 'Restaurants',
-    },
-    {
-      id: 6,
-      image_path:
-        'http://localhost/tourify/api/content/assets/categories/6.png',
-      name: 'Beach',
-    },
-    {
-      id: 7,
-      image_path:
-        'http://localhost/tourify/api/content/assets/categories/7.png',
-      name: 'Camping',
-    },
-  ];
+  categories!: Category[];
 
   constructor(
     private router: Router,
@@ -110,10 +67,9 @@ export class HomePage implements OnInit {
     }
   }
 
-  ngOnInit() {}
-  onViewWillEnter() {
+  ngOnInit() {
     this.categoryService.getAll().subscribe((res) => {
-      console.log(res);
+      this.categories = res.data.categories;
     });
   }
 
