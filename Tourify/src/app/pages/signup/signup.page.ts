@@ -57,7 +57,7 @@ export class SignupPage implements OnInit {
           return;
         } else {
           let user: User = res.data.user;
-          window.localStorage.setItem('current_user', JSON.stringify(user));
+          window.sessionStorage.setItem('current_user', JSON.stringify(user));
           this.router.navigate(['/tabs']);
         }
       });

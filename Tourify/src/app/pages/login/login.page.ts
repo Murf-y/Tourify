@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
       if (res.message) {
         return;
       } else {
-        window.localStorage.setItem(
+        window.sessionStorage.setItem(
           'current_user',
           JSON.stringify(res.data.user)
         );

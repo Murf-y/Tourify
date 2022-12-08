@@ -98,14 +98,12 @@ export class HomePage implements OnInit {
   ];
 
   constructor(private router: Router) {
-    this.user = JSON.parse(localStorage.getItem('current_user') || '{}');
+    this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
 
     // if the user is not logged in, redirect to login page
     if (!this.user || !this.user.id) {
       this.router.navigate(['/login']);
     }
-
-    console.log(this.user);
   }
 
   ngOnInit() {}
