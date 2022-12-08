@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomePage implements OnInit {
   // TODO create enum for filters
   filter = 'sights';
+
+  cards = ['hello', 'world'];
   constructor() {}
 
   ngOnInit() {}

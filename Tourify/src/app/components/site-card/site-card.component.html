@@ -1,0 +1,33 @@
+<div class="bg-gray-light w-3/4 mb-6 shadow-md rounded-xl mt-6 py-2 px-2">
+  <div class="card">
+    <div class="flex justify-center items-center">
+      <img
+        class="w-full rounded-lg object-cover"
+        src="{{ image_path }}"
+        alt="card-image"
+      />
+    </div>
+    <div class="card-body mt-2">
+      <h4 class="font-medium">{{ title }}</h4>
+
+      <div class="text-gray text-xs flex gap-1 items-center mt-2">
+        <img src="assets/icon/card_category.svg" alt="" />
+        <p>{{ category }}</p>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <div class="text-gray text-xs flex gap-1 items-center">
+          <img src="assets/icon/card_location.svg" alt="" />
+          <p>{{ location }}</p>
+        </div>
+
+        <div *ngIf="favorited; else otherFav">
+          <img src="assets/icon/card_favorite_primary.svg" alt="" />
+        </div>
+        <ng-template #otherFav>
+          <img src="assets/icon/card_favorite.svg" alt="" />
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
