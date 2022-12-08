@@ -18,13 +18,18 @@
         <ion-input
           placeholder="john.smith@lau.edu"
           inputmode="email"
+          [(ngModel)]="email"
         ></ion-input>
         <ion-note slot="error">Invalid email</ion-note>
       </ion-item>
       <!-- add same thing but for passsword -->
       <ion-item class="mr-6">
         <ion-label position="floating">Password</ion-label>
-        <ion-input placeholder="********" inputmode="password"></ion-input>
+        <ion-input
+          placeholder="********"
+          inputmode="password"
+          [(ngModel)]="password"
+        ></ion-input>
         <ion-note slot="error">Invalid password</ion-note>
       </ion-item>
 

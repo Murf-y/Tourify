@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from 'app/models/user';
+import { UserCrudService } from 'app/services/userCrud.service';
+import { emailValidator } from 'app/utils/email';
+import { passwordStrengthValidator } from 'app/utils/password';
 
 @Component({
   selector: 'app-signup',
@@ -7,7 +11,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.page.scss'],
 })
 export class SignupPage implements OnInit {
-  constructor(private router: Router) {}
+  // add username, email, password binding
+
+  username: string | undefined;
+  email: string | undefined;
+  password: string | undefined;
+
+  constructor(private router: Router, private userSerive: UserCrudService) {}
 
   ngOnInit() {}
 
@@ -16,7 +26,40 @@ export class SignupPage implements OnInit {
   }
 
   signUp() {
-    // for now just go to tabs page
-    this.router.navigate(['/tabs']);
+    // validate username, email, password
+
+    if (!this.username || !this.email || !this.password) {
+      return;
+    }
+
+    // TODO show error message
+    if (this.username.length < 2) {
+      return;
+    }
+
+    // TODO show error message
+    if (!emailValidator(this.email)) {
+      return;
+    }
+
+    // TODO show error message
+    if (!passwordStrengthValidator(this.password)) {
+      return;
+    }
+
+    this.userSerive
+      .createUser(this.username, this.email, this.password)
+      .subscribe((res) => {
+        console.log(res);
+
+        // TODO show error message
+        if (res.message) {
+          return;
+        } else {
+          let user: User = res.data.user;
+          window.localStorage.setItem('current_user', JSON.stringify(user));
+          this.router.navigate(['/tabs']);
+        }
+      });
   }
 }
