@@ -77,6 +77,7 @@ export class HomePage implements OnInit {
     console.log(this.filter);
   }
 
+  // TODO use emitter to emit the event with child component
   toggleFavorite(site: Site) {
     site.isFavorite = !site.isFavorite;
   }
