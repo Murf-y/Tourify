@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Site } from 'app/models/site';
 
 @Component({
   selector: 'site-card',
@@ -6,11 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./site-card.component.scss'],
 })
 export class SiteCardComponent implements OnInit {
-  image_path: string = 'assets/images/site.png';
-  title: string = 'Site Title';
-  category = 'Nature';
-  location = 'Beirut, Lebanon';
-  favorited = false;
+  @Input() site!: Site;
 
   constructor() {}
 
