@@ -1,6 +1,6 @@
 .placeImg {
     // set width and height to 100% to make the image responsive
-    width: 12rem !important;
-    height: 8rem !important;
-    object-fit: fill;
+    width: 192px !important;
+    max-height: 96px !important;
+    object-fit: cover;
 }
