@@ -3,7 +3,8 @@ import { Category } from '../category';
 export interface Place {
   id: number;
   name: string;
-  location: string;
+  district: string;
+  city: string;
   description: string;
   photo_url: string;
   category: Category;
