@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
     $places = [];
     while ($row = $result->fetch_assoc()) {
         $row['category'] = getCategoryById($row['category_id']);
+        // replace the category_id with the category object
+        unset($row['category_id']);
+        $row['isFavorited'] = $row['isFavorited'] == 1;
         $places[] = $row;
     }
 
