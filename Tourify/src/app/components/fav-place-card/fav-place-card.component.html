@@ -4,16 +4,16 @@
   <div class="flex justify-center items-center w-[4.5rem] h-16">
     <img
       class="w-full h-full rounded-lg object-cover"
-      src="{{ site.image_path }}"
+      src="{{ place.image_path }}"
       alt="card-image"
     />
   </div>
   <div class="flex flex-col justify-between flex-grow h-full gap-1">
     <div class="flex justify-between items-center">
-      <h4 class="font-medium text-sm">{{ site.name }}</h4>
+      <h4 class="font-medium text-sm">{{ place.name }}</h4>
       <div
-        *ngIf="site.isFavorite; else otherFav"
-        (click)="toggleFavoriteSite()"
+        *ngIf="place.isFavorited; else otherFav"
+        (click)="toggleFavoritePlace()"
         class="cursor-pointer"
       >
         <img src="assets/icon/card_favorite_primary.svg" alt="" />
@@ -22,7 +22,7 @@
         <img
           src="assets/icon/card_favorite.svg"
           alt=""
-          (click)="toggleFavoriteSite()"
+          (click)="toggleFavoritePlace()"
           class="cursor-pointer"
         />
       </ng-template>
@@ -30,13 +30,13 @@
 
     <div class="text-gray text-xs flex gap-1 items-center">
       <img src="assets/icon/card_category.svg" alt="" />
-      <p>{{ site.category.name }}</p>
+      <p>{{ place.category.name }}</p>
     </div>
 
     <div class="flex justify-between items-center">
       <div class="text-gray text-xs flex gap-1 items-center">
         <img src="assets/icon/card_location.svg" alt="" />
-        <p>{{ site.location }}</p>
+        <p>{{ place.location }}</p>
       </div>
     </div>
   </div>

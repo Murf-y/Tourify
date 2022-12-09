@@ -7,10 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { FavoritePageRoutingModule } from './favorite-routing.module';
 
 import { FavoritePage } from './favorite.page';
-import { FavSiteCardComponent } from 'app/components/fav-site-card/fav-site-card.component';
+import { FavPlaceCardComponent } from 'app/components/fav-place-card/fav-place-card.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, FavoritePageRoutingModule],
-  declarations: [FavoritePage, FavSiteCardComponent],
+  declarations: [FavoritePage, FavPlaceCardComponent],
 })
 export class FavoritePageModule {}

@@ -1,6 +1,6 @@
 import { Category } from '../category';
 
-export interface Site {
+export interface Place {
   id: number;
   name: string;
   location: string;
@@ -8,5 +8,5 @@ export interface Site {
   image_path: string;
   category: Category;
   tags: string[];
-  isFavorite: boolean;
+  isFavorited: boolean;
 }
