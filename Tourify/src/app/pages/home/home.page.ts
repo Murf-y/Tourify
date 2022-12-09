@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from 'app/models/category';
-import { place } from 'app/models/place';
+import { Place } from 'app/models/place';
 import { User } from 'app/models/user';
 import { CategoryCrudService } from 'app/services/categoryCrud.service';
+import { PlaceCrudService } from 'app/services/placeCrud.service';
 
 const enum Filter {
   All = 'all',
@@ -20,13 +21,14 @@ export class HomePage implements OnInit {
   user!: User;
   filter = Filter.All;
 
-  places: place[] = [];
+  places: Place[] = [];
 
   categories!: Category[];
 
   constructor(
     private router: Router,
-    private categoryService: CategoryCrudService
+    private categoryService: CategoryCrudService,
+    private placeService: PlaceCrudService
   ) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
 
@@ -37,17 +39,27 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.user || !this.user.id) {
+      this.router.navigate(['/login']);
+    }
+
     this.categoryService.getAll().subscribe((res) => {
       this.categories = res.data.categories;
     });
+
+    this.placeService.getAll(this.user.id).subscribe((res) => {
+      console.log(res);
+      this.places = res.data.places;
+    });
   }
 
+  // TODO change places based on filter
   segmentChanged(ev: any) {
     console.log(this.filter);
   }
 
   // TODO use emitter to emit the event with child component
-  toggleFavorite(place: place) {
+  toggleFavorite(place: Place) {
     place.isFavorited = !place.isFavorited;
   }
 }

@@ -3,6 +3,13 @@
 include_once "connection.php";
 include("helper.php");
 
+
+// allow cors and json response type in one line
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json; charset=UTF-8");
+
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
 
     // join a derived attribute isFavorited, which is true if the place is favorited by the user

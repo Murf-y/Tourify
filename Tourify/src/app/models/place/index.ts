@@ -5,7 +5,7 @@ export interface Place {
   name: string;
   location: string;
   description: string;
-  image_path: string;
+  photo_url: string;
   category: Category;
   tags: string[];
   isFavorited: boolean;

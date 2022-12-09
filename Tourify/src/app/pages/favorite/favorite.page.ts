@@ -5,7 +5,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { place } from 'app/models/place';
+import { Place } from 'app/models/place';
 
 @Component({
   selector: 'app-favorite',
@@ -13,7 +13,7 @@ import { place } from 'app/models/place';
   styleUrls: ['./favorite.page.scss'],
 })
 export class FavoritePage implements OnInit {
-  favoritesplaces: place[] = [];
+  favoritesPlaces: Place[] = [];
 
   constructor() {}
 
@@ -22,9 +22,9 @@ export class FavoritePage implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     console.log(changes);
   }
-  toggleFav(place: place) {
+  toggleFav(place: Place) {
     place.isFavorited = !place.isFavorited;
-    this.favoritesplaces = this.favoritesplaces.filter(
+    this.favoritesPlaces = this.favoritesPlaces.filter(
       (place) => place.isFavorited
     );
 
