@@ -42,6 +42,18 @@ export class PlaceCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('getAllFavorites')));
   }
 
+  getAllPopular(user_id: number): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?user_id=' + user_id + '&popular')
+      .pipe(catchError(this.handleError<CrudResponse>('getAllPopular')));
+  }
+
+  getAllLatest(user_id: number): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?user_id=' + user_id + '&latest')
+      .pipe(catchError(this.handleError<CrudResponse>('getAllLatest')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
