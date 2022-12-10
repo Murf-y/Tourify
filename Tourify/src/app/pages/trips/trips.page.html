@@ -9,8 +9,10 @@
       Create Trip
     </div>
   </div>
-  <ion-list [inset]="true" *ngIf="!emptyTrips; else emptyTrips"> </ion-list>
-  <ng-template #emptyTrips>
+  <ion-list [inset]="true" *ngIf="!emptyTrips; else isEmpty" lines="none">
+    <trip-card *ngFor="let trip of trips" [trip]="trip"> </trip-card>
+  </ion-list>
+  <ng-template #isEmpty>
     <div class="flex flex-col justify-center items-center mt-12">
       <img src="assets/images/empty_state_2.svg" alt="" />
       <p class="text-gray text-sm mt-4 text-center">
