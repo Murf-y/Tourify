@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Place } from 'app/models/place';
 
 @Component({
@@ -8,13 +8,13 @@ import { Place } from 'app/models/place';
 })
 export class PlaceCardComponent implements OnInit {
   @Input() place!: Place;
-  @Input() toggleFavorite: (place: Place) => void = () => {};
+  @Output('toggleFav') toggleFav: EventEmitter<Place> = new EventEmitter();
 
   constructor() {}
 
   ngOnInit() {}
 
   toggleFavoritePlace() {
-    this.toggleFavorite(this.place);
+    this.toggleFav.emit(this.place);
   }
 }

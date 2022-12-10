@@ -22,14 +22,26 @@ export class PlaceCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('getAll')));
   }
 
-  favoritePlace(place_id: number, user_id: number): Observable<CrudResponse> {
+  toggleFavorite(
+    place_id: number,
+    user_id: number,
+    newIsFavorited: boolean
+  ): Observable<CrudResponse> {
     const formData = new FormData();
     formData.append('place_id', place_id.toString());
     formData.append('user_id', user_id.toString());
+    formData.append('is_favorited', newIsFavorited ? '1' : '0');
     return this.httpClient
       .post<CrudResponse>(this.endpoint, formData)
-      .pipe(catchError(this.handleError<CrudResponse>('favoritePlace')));
+      .pipe(catchError(this.handleError<CrudResponse>('toggleFavorite')));
   }
+
+  getAllFavorites(user_id: number): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?user_id=' + user_id + '&favorites')
+      .pipe(catchError(this.handleError<CrudResponse>('getAllFavorites')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

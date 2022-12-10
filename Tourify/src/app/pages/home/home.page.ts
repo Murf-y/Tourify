@@ -17,7 +17,7 @@ const enum Filter {
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
   user!: User;
   filter = Filter.All;
 
@@ -38,7 +38,7 @@ export class HomePage implements OnInit {
     }
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     if (!this.user || !this.user.id) {
       this.router.navigate(['/login']);
     }
@@ -56,10 +56,5 @@ export class HomePage implements OnInit {
   // TODO change places based on filter
   segmentChanged(ev: any) {
     console.log(this.filter);
-  }
-
-  // TODO use emitter to emit the event with child component
-  toggleFavorite(place: Place) {
-    place.isFavorited = !place.isFavorited;
   }
 }

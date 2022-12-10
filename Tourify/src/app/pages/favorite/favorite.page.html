@@ -5,8 +5,7 @@
   </div>
 
   <!-- if favoritesplaces is empty display a message -->
-  <ion-list [inset]="true" *ngIf="favoritesPlaces.length === 0; else emptyFav">
-    >
+  <ion-list [inset]="true" *ngIf="!emptyFavorites; else emptyFav">
     <fav-place-card
       *ngFor="let place of favoritesPlaces"
       [place]="place"

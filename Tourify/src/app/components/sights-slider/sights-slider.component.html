@@ -1,5 +1,6 @@
 <ion-slides [options]="slideOpts">
   <ion-slide *ngFor="let place of places">
-    <place-card [place]="place" [toggleFavorite]="toggleFavorite"> </place-card>
+    <place-card [place]="place" (toggleFav)="toggleFavoritePlace(place)">
+    </place-card>
   </ion-slide>
 </ion-slides>
