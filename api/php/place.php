@@ -143,7 +143,11 @@ function getPopularPlacesByCategory($category_id, $user_id)
     }
 
     // sort the places by average_rating
+    // if the average_rating is the same, then sort by favorites_count
     usort($places, function ($a, $b) {
+        if ($a['average_rating'] == $b['average_rating']) {
+            return $b['favorites_count'] <=> $a['favorites_count'];
+        }
         return $b['average_rating'] <=> $a['average_rating'];
     });
 
