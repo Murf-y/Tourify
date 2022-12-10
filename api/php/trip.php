@@ -21,21 +21,9 @@ if (
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 
-    // validate date, if not valid, return error and check if start date is less than end date
-    $start_date = date('Y-m-d', strtotime($start_date));
-    $end_date = date('Y-m-d', strtotime($end_date));
+    $sql = "INSERT INTO trips (user_id, name, start_date, end_date) VALUES ('$user_id', '$name', '$start_date', '$end_date')";
 
-    if ($start_date > $end_date) {
-        echo json_encode(array(
-            "status" => 400,
-            "message" => "Start date must be less than end date"
-        ));
-    }
-
-    $sql = "INSERT INTO trips (name, start_date, end_date, user_id) VALUES ('$name', '$start_date', '$end_date', '$user_id')";
-    $result = $conn->query($sql);
-
-    if ($result) {
+    if ($connection->query($sql) === TRUE) {
         echo json_encode(array(
             "status" => 200,
             "data" => "Trip created successfully"
@@ -44,6 +32,43 @@ if (
         echo json_encode(array(
             "status" => 500,
             "message" => "Internal Server Error"
+        ));
+    }
+} else if (
+    $_SERVER['REQUEST_METHOD'] == 'GET'
+    && isset($_GET['user_id'])
+) {
+    $user_id = $_GET['user_id'];
+
+    $sql = "SELECT * FROM trips WHERE user_id = '$user_id'";
+
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $trips = array();
+
+        while ($row = $result->fetch_assoc()) {
+            $trip_id = $row['id'];
+            $sql = "SELECT places.*, categories.* FROM trip_places INNER JOIN places ON trip_places.place_id = places.id INNER JOIN categories ON places.category_id = categories.id WHERE trip_places.trip_id = '$trip_id'";
+            $places_result = $connection->query($sql);
+            $places = array();
+            while ($place_row = $places_result->fetch_assoc()) {
+                array_push($places, $place_row);
+            }
+            $row['places'] = $places;
+            array_push($trips, $row);
+        }
+
+        echo json_encode(array(
+            "status" => 200,
+            "data" => [
+                "trips" => $trips
+            ]
+        ));
+    } else {
+        echo json_encode(array(
+            "status" => 404,
+            "message" => "Not Found"
         ));
     }
 } else {

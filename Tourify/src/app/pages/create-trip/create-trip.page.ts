@@ -65,13 +65,18 @@ export class CreateTripPage implements OnInit {
     this.validateInput();
 
     if (!this.isThereError) {
+      console.log(this.start_date, this.end_date);
       this.tripService
         .createTrip(this.user.id, this.name, this.start_date, this.end_date)
         .subscribe((response) => {
           console.log(response);
+          if (response.status === 200) {
+            this.router.navigate(['/tabs/trips']);
+          } else {
+            this.isThereError = true;
+            this.errorMessage = response.message;
+          }
         });
-
-      // this.router.navigate(['/trips']);
     }
   }
   cancelTrip() {

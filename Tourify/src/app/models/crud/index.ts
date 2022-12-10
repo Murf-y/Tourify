@@ -1,5 +1,5 @@
 export interface CrudResponse {
-  status: string;
+  status: number;
   message: string;
   data: any;
 }

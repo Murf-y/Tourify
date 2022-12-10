@@ -35,7 +35,7 @@ export class TripCrudService {
     formData.append('end_date', end_date);
 
     return this.httpClient
-      .post<CrudResponse>(this.endpoint, formData, this.httpOptions)
+      .post<CrudResponse>(this.endpoint, formData)
       .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
   }
 
