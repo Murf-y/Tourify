@@ -86,7 +86,12 @@ function getPopularPlaces($user_id)
     // then we can sort by the average rating and the number of favorites
 
     global $connection;
-    $sql = "SELECT places.* FROM places INNER JOIN (SELECT place_id, AVG(rating) AS rating, COUNT(*) AS favorites FROM reviews INNER JOIN favorites ON reviews.place_id = favorites.place_id GROUP BY place_id) AS place_ratings ON places.id = place_ratings.place_id ORDER BY place_ratings.rating DESC, place_ratings.favorites DESC";
+
+    $sql =
+        "SELECT places.* FROM places 
+        LEFT JOIN (SELECT place_id, AVG(rating) AS rating FROM reviews GROUP BY place_id) 
+        AS place_ratings ON places.id = place_ratings.place_id ORDER BY place_ratings.rating DESC, (SELECT COUNT(*) FROM favorites WHERE place_id = places.id) DESC";
+
     $result = $connection->query($sql);
 
     $places = [];
