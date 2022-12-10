@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { CategoryPageRoutingModule } from './category-routing.module';
 
 import { CategoryPage } from './category.page';
+import { VertPlaceCardComponentModule } from 'app/components/vert-place-card/vert-place-card.component.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CategoryPageRoutingModule
+    CategoryPageRoutingModule,
+    VertPlaceCardComponentModule,
   ],
-  declarations: [CategoryPage]
+  declarations: [CategoryPage],
 })
 export class CategoryPageModule {}

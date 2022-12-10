@@ -7,4 +7,35 @@
     ></ion-icon>
     <h1 class="text-2xl text-center flex-grow">{{category.name}}</h1>
   </div>
+
+  <ion-segment
+    class="mt-4 text-xs"
+    scrollable="true"
+    [(ngModel)]="filter"
+    (ionChange)="segmentChanged($event)"
+    mode="md"
+  >
+    <ion-segment-button value="latest">
+      <p class="text-[0.7rem]">Latest</p>
+    </ion-segment-button>
+    <ion-segment-button value="popular">
+      <p class="text-[0.7rem]">Popular</p>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-list [inset]="true" *ngIf="!emptyCategoryPlaces; else emptyState">
+    <vert-place-card
+      *ngFor="let place of categoryPlaces"
+      [place]="place"
+      (toggleFav)="toggleFav(place)"
+    ></vert-place-card>
+  </ion-list>
+  <ng-template #emptyState>
+    <div class="flex flex-col justify-center items-center mt-6">
+      <img src="assets/images/empty_state.jpg" alt="" />
+      <p class="text-gray text-sm mt-4">
+        Currently No Places In {{ category.name }}
+      </p>
+    </div>
+  </ng-template>
 </ion-content>

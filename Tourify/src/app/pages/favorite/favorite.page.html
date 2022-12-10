@@ -6,11 +6,11 @@
 
   <!-- if favoritesplaces is empty display a message -->
   <ion-list [inset]="true" *ngIf="!emptyFavorites; else emptyFav">
-    <fav-place-card
+    <vert-place-card
       *ngFor="let place of favoritesPlaces"
       [place]="place"
       (toggleFav)="toggleFav(place)"
-    ></fav-place-card>
+    ></vert-place-card>
   </ion-list>
   <ng-template #emptyFav>
     <div class="flex flex-col justify-center items-center mt-6">

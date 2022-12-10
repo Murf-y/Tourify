@@ -35,6 +35,33 @@ export class PlaceCrudService {
       .get<CrudResponse>(this.endpoint + '?user_id=' + user_id)
       .pipe(catchError(this.handleError<CrudResponse>('getAll')));
   }
+  getPlacesByCategory(
+    user_id: number,
+    category_id: number
+  ): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(
+        this.endpoint + '?user_id=' + user_id + '&category_id=' + category_id
+      )
+      .pipe(catchError(this.handleError<CrudResponse>('getPlacesByCategory')));
+  }
+  getPlacesByCategoryPopular(
+    user_id: number,
+    category_id: number
+  ): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(
+        this.endpoint +
+          '?user_id=' +
+          user_id +
+          '&category_id=' +
+          category_id +
+          '&popular'
+      )
+      .pipe(
+        catchError(this.handleError<CrudResponse>('getPlacesByCategoryPopular'))
+      );
+  }
 
   getAllFavorites(user_id: number): Observable<CrudResponse> {
     return this.httpClient
