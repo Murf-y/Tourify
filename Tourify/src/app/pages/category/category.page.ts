@@ -64,6 +64,7 @@ export class CategoryPage {
       this.placeService
         .getPlacesByCategoryPopular(this.user.id, this.category.id)
         .subscribe((res) => {
+          console.log(res);
           this.categoryPlaces = res.data.places;
           this.emptyCategoryPlaces = this.categoryPlaces.length == 0;
         });

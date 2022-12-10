@@ -14,14 +14,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
 
     $user_id = $_GET['user_id'];
 
-    if (isset($_GET['favorites'])) {
-        getFavoritePlaces($user_id);
-    } else if (isset($_GET['popular'])) {
-        getPopularPlaces($user_id);
-    } else if (isset($_GET['latest'])) {
-        getLatestPlaces($user_id);
+    if (isset($_GET['category_id'])) {
+        $category_id = $_GET['category_id'];
+        if (isset($_GET['popular'])) {
+            getPopularPlacesByCategory($category_id, $user_id);
+        } else {
+            getPlacesByCategory($category_id, $user_id);
+        }
     } else {
-        getAllPlaces($user_id);
+        if (isset($_GET['favorites'])) {
+            getFavoritePlaces($user_id);
+        } else if (isset($_GET['popular'])) {
+            getPopularPlaces($user_id);
+        } else if (isset($_GET['latest'])) {
+            getLatestPlaces($user_id);
+        } else {
+            getAllPlaces($user_id);
+        }
     }
 }
 
@@ -76,6 +85,75 @@ function getAllPlaces($user_id)
     ));
 }
 
+function getPlacesByCategory($category_id, $user_id)
+{
+    global $connection;
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE category_id = $category_id";
+    $result = $connection->query($sql);
+
+    // for each place, get the category
+    $places = [];
+    while ($row = $result->fetch_assoc()) {
+        $row['category'] = getCategoryById($row['category_id']);
+        // replace the category_id with the category object
+        unset($row['category_id']);
+        $row['isFavorited'] = $row['isFavorited'] == 1;
+        $places[] = $row;
+    }
+
+    echo json_encode(array(
+        'status' => 200,
+        'data' => [
+            "places" => $places
+        ]
+    ));
+}
+
+function getPopularPlacesByCategory($category_id, $user_id)
+{
+    // sort by rating 
+    global $connection;
+
+    // first select all places
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE category_id = $category_id";
+    $result = $connection->query($sql);
+    $places = [];
+
+    // for each place, get the average rating
+    // and the number of favorites
+    // and add it to the place object
+    while ($row = $result->fetch_assoc()) {
+        $row['category'] = getCategoryById($row['category_id']);
+        unset($row['category_id']);
+        $row['isFavorited'] = $row['isFavorited'] == 1;
+
+        $place_id = $row['id'];
+        $sql = "SELECT AVG(rating) AS average_rating FROM reviews WHERE place_id = $place_id";
+        $result2 = $connection->query($sql);
+        $row2 = $result2->fetch_assoc();
+        // if average_rating is null, then set it to 0
+        $row['average_rating'] = $row2['average_rating'] ?? 0;
+
+        $sql = "SELECT COUNT(*) AS favorites_count FROM favorites WHERE place_id = $place_id";
+        $result2 = $connection->query($sql);
+        $row2 = $result2->fetch_assoc();
+        $row['favorites_count'] = $row2['favorites_count'];
+
+        $places[] = $row;
+    }
+
+    // sort the places by average_rating
+    usort($places, function ($a, $b) {
+        return $b['average_rating'] <=> $a['average_rating'];
+    });
+
+    echo json_encode(array(
+        'status' => 200,
+        'data' => [
+            "places" => $places
+        ]
+    ));
+}
 
 function getPopularPlaces($user_id)
 {
