@@ -1,0 +1,70 @@
+<ion-content>
+  <div class="flex flex-col justify-between h-full py-8 px-4">
+    <div class="flex flex-col gap-8">
+      <div class="flex gap-2 items-center">
+        <ion-icon
+          name="arrow-back-outline"
+          class="absolute"
+          (click)="goBack()"
+        ></ion-icon>
+        <h1 class="text-2xl text-center flex-grow">Create Trip</h1>
+      </div>
+
+      <div class="flex flex-col gap-6">
+        <div
+          *ngIf="isThereError"
+          class="text-xs font-medium text-red-600 text-center"
+        >
+          {{errorMessage}}
+        </div>
+        <ion-item>
+          <ion-label position="floating">Trip Name</ion-label>
+          <ion-input
+            [(ngModel)]="name"
+            (ionChange)="validateInput()"
+          ></ion-input>
+        </ion-item>
+        <ion-accordion-group [value]="'first'" expand="inset">
+          <ion-accordion value="first">
+            <ion-item slot="header" color="primary">
+              <ion-label>Start Date</ion-label>
+              <ion-note slot="end" id="datetimeValue"></ion-note>
+            </ion-item>
+            <ion-datetime
+              slot="content"
+              displayFormat="MMMM YY"
+              presentation="date"
+              [(ngModel)]="start_date"
+              (ionChange)="validateInput()"
+              min="{{min_start_date}}"
+            ></ion-datetime>
+          </ion-accordion>
+
+          <ion-accordion value="start">
+            <ion-item slot="header" color="primary">
+              <ion-label>End Date</ion-label>
+              <ion-note slot="end" id="datetimeValue"></ion-note>
+            </ion-item>
+            <ion-datetime
+              slot="content"
+              displayFormat="MMMM YY"
+              presentation="date"
+              [(ngModel)]="end_date"
+              (ionChange)="validateInput()"
+            ></ion-datetime>
+          </ion-accordion>
+        </ion-accordion-group>
+      </div>
+    </div>
+    <div class="flex items-center justify-between w-full mt-2">
+      <div class="btn btn-secondary" (click)="cancelTrip()">Cancel</div>
+      <div
+        class="btn"
+        [ngClass]="{'btn-primary': !isThereError, 'btn-disabled': isThereError}"
+        (click)="createTrip()"
+      >
+        Create
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,9 +1,22 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>trips</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <div class="flex items-start justify-between pt-6 px-4">
+    <h2 class="text-xl">My Trips</h2>
+    <div
+      class="text-xs"
+      class="btn btn-primary shadow-md shadow-primary-light"
+      (click)="goToCreateTrip()"
+    >
+      Create Trip
+    </div>
+  </div>
+  <ion-list [inset]="true" *ngIf="!emptyTrips; else emptyTrips"> </ion-list>
+  <ng-template #emptyTrips>
+    <div class="flex flex-col justify-center items-center mt-12">
+      <img src="assets/images/empty_state_2.svg" alt="" />
+      <p class="text-gray text-sm mt-4 text-center">
+        No Trips<br />
+        Create Some!
+      </p>
+    </div>
+  </ng-template>
 </ion-content>

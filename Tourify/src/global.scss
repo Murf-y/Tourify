@@ -46,6 +46,16 @@
     @apply bg-primary text-white bg-opacity-100 border-transparent
     hover:bg-primary-dark hover:bg-opacity-100 hover:text-white;
   }
+
+  .btn-secondary {
+    @apply bg-gray text-white bg-opacity-100 border-transparent
+    hover:bg-primary-dark hover:bg-opacity-100 hover:text-white;
+  }
+
+  .btn-disabled {
+    @apply bg-gray-200 text-gray-400 bg-opacity-100 border-transparent
+    hover:bg-gray-200 hover:bg-opacity-100 hover:text-gray-400 cursor-not-allowed;
+  }
 }
 
 * {

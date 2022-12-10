@@ -45,7 +45,15 @@ const routes: Routes = [
       import('./pages/category/category.module').then(
         (m) => m.CategoryPageModule
       ),
+  },  {
+    path: 'trip-page',
+    loadChildren: () => import('./pages/trip-page/trip-page.module').then( m => m.TripPagePageModule)
   },
+  {
+    path: 'create-trip',
+    loadChildren: () => import('./pages/create-trip/create-trip.module').then( m => m.CreateTripPageModule)
+  },
+
 ];
 @NgModule({
   imports: [
