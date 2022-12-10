@@ -10,7 +10,12 @@
     </div>
   </div>
   <ion-list [inset]="true" *ngIf="!emptyTrips; else isEmpty" lines="none">
-    <trip-card *ngFor="let trip of trips" [trip]="trip"> </trip-card>
+    <trip-card
+      *ngFor="let trip of trips"
+      [trip]="trip"
+      (click)="goToTrip(trip)"
+    >
+    </trip-card>
   </ion-list>
   <ng-template #isEmpty>
     <div class="flex flex-col justify-center items-center mt-12">

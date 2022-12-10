@@ -34,4 +34,8 @@ export class TripsPage {
   goToCreateTrip() {
     this.router.navigate(['/create-trip']);
   }
+
+  goToTrip(trip: Trip) {
+    this.router.navigate(['/trip-page', trip.id]);
+  }
 }
