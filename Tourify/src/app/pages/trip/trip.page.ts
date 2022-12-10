@@ -14,7 +14,7 @@ export class TripPage implements OnInit {
   user!: User;
 
   trip: Trip = {
-    id: '9',
+    id: '0',
     name: '',
     start_date: '',
     end_date: '',
@@ -23,6 +23,8 @@ export class TripPage implements OnInit {
   };
 
   trip_id!: number;
+
+  emptyPlaces: boolean = true;
 
   constructor(
     private locationStrategy: LocationStrategy,
