@@ -21,7 +21,31 @@ if (
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 
-    $sql = "INSERT INTO trips (name, start_date, end_date) VALUES ('$name', '$start_date', '$end_date')";
+    // validate date, if not valid, return error and check if start date is less than end date
+    $start_date = date('Y-m-d', strtotime($start_date));
+    $end_date = date('Y-m-d', strtotime($end_date));
+
+    if ($start_date > $end_date) {
+        echo json_encode(array(
+            "status" => 400,
+            "message" => "Start date must be less than end date"
+        ));
+    }
+
+    $sql = "INSERT INTO trips (name, start_date, end_date, user_id) VALUES ('$name', '$start_date', '$end_date', '$user_id')";
+    $result = $conn->query($sql);
+
+    if ($result) {
+        echo json_encode(array(
+            "status" => 200,
+            "data" => "Trip created successfully"
+        ));
+    } else {
+        echo json_encode(array(
+            "status" => 500,
+            "message" => "Internal Server Error"
+        ));
+    }
 } else {
     echo json_encode(array(
         "status" => 400,
