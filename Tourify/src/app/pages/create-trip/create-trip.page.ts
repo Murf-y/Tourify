@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'app/models/user';
+import { TripCrudService } from 'app/services/tripCrud.service';
 
 @Component({
   selector: 'create-trip',
@@ -18,8 +19,8 @@ export class CreateTripPage implements OnInit {
   user!: User;
 
   name: string = '';
-  start_date = null;
-  end_date = null;
+  start_date!: string;
+  end_date!: string;
 
   isThereError = false;
   errorMessage = '';
@@ -28,7 +29,8 @@ export class CreateTripPage implements OnInit {
 
   constructor(
     private router: Router,
-    private locationStrategy: LocationStrategy
+    private locationStrategy: LocationStrategy,
+    private tripService: TripCrudService
   ) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
 
@@ -62,9 +64,14 @@ export class CreateTripPage implements OnInit {
   createTrip() {
     this.validateInput();
 
-    // TODO create trip api
     if (!this.isThereError) {
-      this.router.navigate(['/trips']);
+      this.tripService
+        .createTrip(this.user.id, this.name, this.start_date, this.end_date)
+        .subscribe((response) => {
+          console.log(response);
+        });
+
+      // this.router.navigate(['/trips']);
     }
   }
   cancelTrip() {
