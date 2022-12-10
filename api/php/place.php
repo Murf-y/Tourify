@@ -15,7 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 
     if (isset($_GET['favorites'])) {
-        getFavorites($user_id);
+        getFavoritePlaces($user_id);
+    } else if (isset($_GET['popular'])) {
+        getPopularPlaces($user_id);
+    } else if (isset($_GET['latest'])) {
+        getLatestPlaces($user_id);
     } else {
         getAllPlaces($user_id);
     }
@@ -72,7 +76,63 @@ function getAllPlaces($user_id)
     ));
 }
 
-function getFavorites($user_id)
+
+function getPopularPlaces($user_id)
+{
+    // sort by rating and then by number of favorites
+
+    global $connection;
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id ORDER BY rating DESC, (SELECT COUNT(*) FROM favorites WHERE favorites.place_id = places.id) DESC";
+    $result = $connection->query($sql);
+
+    // for each place, get the category
+    $places = [];
+    while ($row = $result->fetch_assoc()) {
+        $row['category'] = getCategoryById($row['category_id']);
+        // replace the category_id with the category object
+        unset($row['category_id']);
+        $row['isFavorited'] = $row['isFavorited'] == 1;
+        $places[] = $row;
+    }
+
+    echo json_encode(array(
+        'status' => 200,
+        'data' => [
+            "places" => $places
+        ]
+    ));
+}
+
+
+function getLatestPlaces($user_id)
+{
+    // sort by date added
+
+
+    global $connection;
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id ORDER BY date_added DESC";
+    $result = $connection->query($sql);
+
+    // for each place, get the category
+    $places = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $row['category'] = getCategoryById($row['category_id']);
+        // replace the category_id with the category object
+        unset($row['category_id']);
+        $row['isFavorited'] = $row['isFavorited'] == 1;
+        $places[] = $row;
+    }
+
+    echo json_encode(array(
+        'status' => 200,
+        'data' => [
+            "places" => $places
+        ]
+    ));
+}
+
+function getFavoritePlaces($user_id)
 {
     global $connection;
     $sql = "SELECT places.* FROM places INNER JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id";
