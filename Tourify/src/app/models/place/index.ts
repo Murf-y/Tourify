@@ -5,9 +5,10 @@ export interface Place {
   name: string;
   district: string;
   city: string;
-  description: string;
+  overview: string;
   photo_url: string;
   category: Category;
+  added_at: string;
   tags: string[];
   isFavorited: boolean;
 }

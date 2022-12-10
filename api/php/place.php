@@ -79,33 +79,45 @@ function getAllPlaces($user_id)
 
 function getPopularPlaces($user_id)
 {
-    // sort by rating and then by number of favorites
-    // rating is the average of all the ratings based on the reviews table
-    // to get rating, we need to join the reviews table, get the average of the rating column, and then group by the place_id
-    // to get the number of favorites, we need to join the favorites table, count the number of rows, and then group by the place_id
-    // then we can sort by the average rating and the number of favorites
-
+    // sort by rating 
     global $connection;
 
-    $sql =
-        "SELECT places.* FROM places 
-        LEFT JOIN (SELECT place_id, AVG(rating) AS rating FROM reviews GROUP BY place_id) 
-        AS place_ratings ON places.id = place_ratings.place_id ORDER BY place_ratings.rating DESC, (SELECT COUNT(*) FROM favorites WHERE place_id = places.id) DESC";
-
+    // first select all places
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id";
     $result = $connection->query($sql);
-
     $places = [];
+
+    // for each place, get the average rating
+    // and the number of favorites
+    // and add it to the place object
     while ($row = $result->fetch_assoc()) {
         $row['category'] = getCategoryById($row['category_id']);
         unset($row['category_id']);
+        $row['isFavorited'] = $row['isFavorited'] == 1;
 
-        // check if the place is favorited by the user
-        $sql = "SELECT * FROM favorites WHERE place_id = $row[id] AND user_id = $user_id";
-        $result = $connection->query($sql);
-        $row['isFavorited'] = $result->num_rows > 0;
+        $place_id = $row['id'];
+        $sql = "SELECT AVG(rating) AS average_rating FROM reviews WHERE place_id = $place_id";
+        $result2 = $connection->query($sql);
+        $row2 = $result2->fetch_assoc();
+        // if average_rating is null, then set it to 0
+        $row['average_rating'] = $row2['average_rating'] ?? 0;
 
+        $sql = "SELECT COUNT(*) AS favorites_count FROM favorites WHERE place_id = $place_id";
+        $result2 = $connection->query($sql);
+        $row2 = $result2->fetch_assoc();
+        $row['favorites_count'] = $row2['favorites_count'];
         $places[] = $row;
     }
+
+    // descending order
+    // SORT first by average_rating
+    // then by favorites_count
+    usort($places, function ($a, $b) {
+        if ($a['average_rating'] == $b['average_rating']) {
+            return $b['favorites_count'] <=> $a['favorites_count'];
+        }
+        return $b['average_rating'] <=> $a['average_rating'];
+    });
 
     echo json_encode(array(
         'status' => 200,
