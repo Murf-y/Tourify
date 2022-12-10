@@ -14,6 +14,9 @@ if (
     && isset($_POST['start_date'])
     && isset($_POST['end_date'])
 ) {
+    $name = $_POST['name'];
+    $start_date = $_POST['start_date'];
+    $end_date = $_POST['end_date'];
 } else {
     echo json_encode(array(
         "status" => 400,
