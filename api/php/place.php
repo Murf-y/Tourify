@@ -32,9 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
             getAllPlaces($user_id);
         }
     }
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($_POST['user_id']) && isset($_POST['is_favorited'])) {
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($_POST['user_id']) && isset($_POST['is_favorited'])) {
     $place_id = $_POST['place_id'];
     $user_id = $_POST['user_id'];
 
@@ -57,7 +55,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($
             ]
         ));
     }
+} else {
+    echo json_encode(array(
+        "status" => 400,
+        "message" => "Bad Request"
+    ));
 }
+
 
 
 
