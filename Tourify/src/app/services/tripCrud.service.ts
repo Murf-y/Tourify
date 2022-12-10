@@ -39,6 +39,12 @@ export class TripCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
   }
 
+  getTrip(trip_id: number): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?trip_id=' + trip_id)
+      .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

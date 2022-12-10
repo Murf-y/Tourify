@@ -30,7 +30,10 @@ export class TripPage {
 
   ionViewWillEnter() {
     this.route.params.subscribe((params) => {
-      console.log(params);
+      const trip_id = params['id'];
+      this.tripService.getTrip(trip_id).subscribe((res) => {
+        this.trip = res.data.trip;
+      });
     });
   }
 
