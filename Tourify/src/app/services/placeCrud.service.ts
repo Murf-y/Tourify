@@ -16,12 +16,6 @@ export class PlaceCrudService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAll(user_id: number): Observable<CrudResponse> {
-    return this.httpClient
-      .get<CrudResponse>(this.endpoint + '?user_id=' + user_id)
-      .pipe(catchError(this.handleError<CrudResponse>('getAll')));
-  }
-
   toggleFavorite(
     place_id: number,
     user_id: number,
@@ -34,6 +28,12 @@ export class PlaceCrudService {
     return this.httpClient
       .post<CrudResponse>(this.endpoint, formData)
       .pipe(catchError(this.handleError<CrudResponse>('toggleFavorite')));
+  }
+
+  getAll(user_id: number): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?user_id=' + user_id)
+      .pipe(catchError(this.handleError<CrudResponse>('getAll')));
   }
 
   getAllFavorites(user_id: number): Observable<CrudResponse> {

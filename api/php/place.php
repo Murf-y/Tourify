@@ -80,18 +80,25 @@ function getAllPlaces($user_id)
 function getPopularPlaces($user_id)
 {
     // sort by rating and then by number of favorites
+    // rating is the average of all the ratings based on the reviews table
+    // to get rating, we need to join the reviews table, get the average of the rating column, and then group by the place_id
+    // to get the number of favorites, we need to join the favorites table, count the number of rows, and then group by the place_id
+    // then we can sort by the average rating and the number of favorites
 
     global $connection;
-    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id ORDER BY rating DESC, (SELECT COUNT(*) FROM favorites WHERE favorites.place_id = places.id) DESC";
+    $sql = "SELECT places.* FROM places INNER JOIN (SELECT place_id, AVG(rating) AS rating, COUNT(*) AS favorites FROM reviews INNER JOIN favorites ON reviews.place_id = favorites.place_id GROUP BY place_id) AS place_ratings ON places.id = place_ratings.place_id ORDER BY place_ratings.rating DESC, place_ratings.favorites DESC";
     $result = $connection->query($sql);
 
-    // for each place, get the category
     $places = [];
     while ($row = $result->fetch_assoc()) {
         $row['category'] = getCategoryById($row['category_id']);
-        // replace the category_id with the category object
         unset($row['category_id']);
-        $row['isFavorited'] = $row['isFavorited'] == 1;
+
+        // check if the place is favorited by the user
+        $sql = "SELECT * FROM favorites WHERE place_id = $row[id] AND user_id = $user_id";
+        $result = $connection->query($sql);
+        $row['isFavorited'] = $result->num_rows > 0;
+
         $places[] = $row;
     }
 
@@ -110,7 +117,7 @@ function getLatestPlaces($user_id)
 
 
     global $connection;
-    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id ORDER BY date_added DESC";
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id ORDER BY added_at DESC";
     $result = $connection->query($sql);
 
     // for each place, get the category

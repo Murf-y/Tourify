@@ -53,8 +53,37 @@ export class HomePage {
     });
   }
 
-  // TODO change places based on filter
   segmentChanged(ev: any) {
-    console.log(this.filter);
+    switch (this.filter) {
+      case Filter.All: {
+        this.placeService.getAll(this.user.id).subscribe((res) => {
+          console.log(res);
+          this.places = res.data.places;
+        });
+        break;
+      }
+      case Filter.Popular: {
+        this.placeService.getAllPopular(this.user.id).subscribe((res) => {
+          console.log(res);
+          this.places = res.data.places;
+        });
+        break;
+      }
+      case Filter.Latest: {
+        this.placeService.getAllLatest(this.user.id).subscribe((res) => {
+          console.log(res);
+          this.places = res.data.places;
+        });
+        break;
+      }
+
+      default: {
+        this.placeService.getAll(this.user.id).subscribe((res) => {
+          console.log(res);
+          this.places = res.data.places;
+        });
+        break;
+      }
+    }
   }
 }
