@@ -11,8 +11,12 @@ header("Content-Type: application/json; charset=UTF-8");
 
 if (
     $_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['name'])
-    && isset($_POST['name'])
-    && isset($_POST['name'])
+    && isset($_POST['start_date'])
+    && isset($_POST['end_date'])
 ) {
 } else {
+    echo json_encode(array(
+        "status" => 400,
+        "message" => "Bad Request"
+    ));
 }
