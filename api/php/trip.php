@@ -71,6 +71,31 @@ if (
             "message" => "Not Found"
         ));
     }
+} else if (
+    $_SERVER['REQUEST_METHOD'] == 'GET'
+    && isset($_GET['trip_id'])
+) {
+    $trip_id = $_GET['trip_id'];
+
+    // select trip by id and add places to it by using join on trip places table 
+    $sql = "SELECT * FROM trips WHERE id = '$trip_id'";
+    $result = $connection->query($sql);
+    $trip = $result->fetch_assoc();
+
+    $sql = "SELECT places.*, categories.* FROM trip_places INNER JOIN places ON trip_places.place_id = places.id INNER JOIN categories ON places.category_id = categories.id WHERE trip_places.trip_id = '$trip_id'";
+    $places_result = $connection->query($sql);
+    $places = array();
+    while ($place_row = $places_result->fetch_assoc()) {
+        array_push($places, $place_row);
+    }
+    $trip['places'] = $places;
+
+    echo json_encode(array(
+        "status" => 200,
+        "data" => [
+            "trip" => $trip
+        ]
+    ));
 } else {
     echo json_encode(array(
         "status" => 400,
