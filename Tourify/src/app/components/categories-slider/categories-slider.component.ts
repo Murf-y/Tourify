@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Category } from 'app/models/category';
 
 @Component({
@@ -12,5 +13,9 @@ export class CategoriesSliderComponent {
     slidesPerView: 3.5,
     spaceBetween: 0,
   };
-  constructor() {}
+  constructor(private router: Router) {}
+
+  goToCategory(category: Category) {
+    this.router.navigate(['/category', category.id, category.name]);
+  }
 }
