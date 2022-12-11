@@ -11,9 +11,11 @@ import { PlaceCrudService } from 'app/services/placeCrud.service';
 })
 export class PlacePage implements OnInit {
   user!: User;
+
   place!: Place;
 
   place_id!: number;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,

@@ -11,6 +11,6 @@ export interface Place {
   added_at: string;
   tags: string[];
   isFavorited: boolean;
-  numberOfReviews: number;
-  rating: number;
+  num_reviews: number;
+  avg_rating: number;
 }

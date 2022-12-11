@@ -1,1 +1,30 @@
-<ion-content> hi </ion-content>
+<ion-content #content>
+  <div class="h-screen relative w-full" *ngIf="place">
+    <img class="h-[50%] object-cover object-center" src="{{place.photo_url}}" />
+    <div class="h-[50%] w-full relative">
+      <div
+        class="absolute h-16 bg-white z-10 -top-14 w-full rounded-t-[3rem] font-medium text-2xl py-3 px-8 flex items-end"
+      >
+        {{place.name}}
+      </div>
+      <div class="flex justify-between items-center text-sm py-2 px-4">
+        <div class="flex gap-1 justify-center items-center">
+          <ion-icon name="location" color="medium" class="text-lg"></ion-icon>
+          <p class="text-gray">{{place.district}}, {{place.city}}</p>
+        </div>
+        <div class="flex items-center justify-between gap-2">
+          <ion-icon name="star" color="primary"></ion-icon>
+          <p class="text-gray">{{place.avg_rating}} ({{place.num_reviews}})</p>
+        </div>
+      </div>
+      <div class="px-5 flex gap-1 justify-start items-center">
+        <ion-icon
+          src="assets/icon/card_category.svg"
+          size="small"
+          color="medium"
+        ></ion-icon>
+        <p class="text-gray text-sm">{{place.category.name}}</p>
+      </div>
+    </div>
+  </div>
+</ion-content>
