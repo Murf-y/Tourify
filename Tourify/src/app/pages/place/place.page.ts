@@ -4,6 +4,11 @@ import { Place } from 'app/models/place';
 import { User } from 'app/models/user';
 import { PlaceCrudService } from 'app/services/placeCrud.service';
 
+enum placePageTab {
+  OVERVIEW = 'overview',
+  REVIEWS = 'reviews',
+}
+
 @Component({
   selector: 'app-place',
   templateUrl: './place.page.html',
@@ -16,6 +21,7 @@ export class PlacePage implements OnInit {
 
   place_id!: number;
 
+  currentTab = placePageTab.OVERVIEW;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -40,4 +46,16 @@ export class PlacePage implements OnInit {
       this.place = res.data.place;
     });
   }
+
+  toggleTab() {
+    if (this.currentTab === placePageTab.OVERVIEW) {
+      this.currentTab = placePageTab.REVIEWS;
+    } else {
+      this.currentTab = placePageTab.OVERVIEW;
+    }
+  }
+
+  reportPlace() {}
+
+  addToTrip() {}
 }

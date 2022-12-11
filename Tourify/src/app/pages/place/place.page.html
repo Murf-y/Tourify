@@ -3,7 +3,7 @@
     <img class="h-[50%] object-cover object-center" src="{{place.photo_url}}" />
     <div class="h-[50%] w-full relative">
       <div
-        class="absolute h-16 bg-white z-10 -top-14 w-full rounded-t-[3rem] font-medium text-2xl py-3 px-8 flex items-end"
+        class="absolute h-16 bg-white z-10 -top-14 w-full rounded-t-[2.5rem] font-medium text-2xl py-3 px-5 flex items-end"
       >
         {{place.name}}
       </div>
@@ -24,6 +24,41 @@
           color="medium"
         ></ion-icon>
         <p class="text-gray text-sm">{{place.category.name}}</p>
+      </div>
+
+      <div class="p-4">
+        <div class="flex justify-around items-center">
+          <div
+            class="relative text-gray cursor-pointer"
+            [class.text-primary]="currentTab === 'overview'"
+            (click)="toggleTab()"
+          >
+            Overview
+            <div
+              class="absolute w-[0.35rem] h-[0.35rem] bg-primary -bottom-1 left-1/2 rounded-full"
+              *ngIf="currentTab === 'overview'"
+            ></div>
+          </div>
+          <div
+            class="relative text-gray cursor-pointer"
+            [class.text-primary]="currentTab === 'reviews'"
+            (click)="toggleTab()"
+          >
+            Reviews
+            <div
+              class="absolute w-[0.35rem] h-[0.35rem] bg-primary -bottom-1 left-1/2 rounded-full"
+              *ngIf="currentTab === 'reviews'"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between absolute bottom-2 pr-4 items-end w-full">
+        <ion-item lines="none" class="cursor-pointer" (click)="reportPlace()">
+          <ion-icon name="shield-half-outline" color="medium"></ion-icon>
+          <p class="font-medium text-sm text-gray underline">report</p>
+        </ion-item>
+        <div class="btn btn-primary" (click)="addToTrip()">Add To Trip</div>
       </div>
     </div>
   </div>
