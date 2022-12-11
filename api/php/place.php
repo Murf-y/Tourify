@@ -10,7 +10,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_GET['place_id'])) {
 
     $user_id = $_GET['user_id'];
 
@@ -32,6 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
             getAllPlaces($user_id);
         }
     }
+} else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && isset($_GET['place_id'])) {
+
+    $user_id = $_GET['user_id'];
+    $place_id = $_GET['place_id'];
+    getPlaceById($place_id, $user_id);
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($_POST['user_id']) && isset($_POST['is_favorited'])) {
     $place_id = $_POST['place_id'];
     $user_id = $_POST['user_id'];
@@ -63,7 +68,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
 }
 
 
+function getPlaceById($place_id, $user_id)
+{
+    global $connection;
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE places.id = $place_id";
+    $result = $connection->query($sql);
 
+    //  get the category
+    $place = $result->fetch_assoc();
+    $place['category'] = getCategoryById($place['category_id']);
+    // replace the category_id with the category object
+    unset($place['category_id']);
+
+    $place['isFavorited'] = $place['isFavorited'] == 1;
+
+    // get the number of reviews for this place and the average rating
+
+    $sql = "SELECT COUNT(*) AS num_reviews, AVG(rating) AS avg_rating FROM reviews WHERE place_id = $place_id";
+    $result = $connection->query($sql);
+    $row = $result->fetch_assoc();
+    $place['num_reviews'] = $row['num_reviews'];
+
+    // if there are no reviews, set the average rating to 0
+    if ($row['avg_rating'] == null) {
+        $row['avg_rating'] = 0;
+    }
+    $place['avg_rating'] = $row['avg_rating'];
+
+    echo json_encode(array(
+        'status' => 200,
+        'data' => [
+            "place" => $place
+        ]
+    ));
+}
 
 function getAllPlaces($user_id)
 {

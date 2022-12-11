@@ -35,6 +35,15 @@ export class PlaceCrudService {
       .get<CrudResponse>(this.endpoint + '?user_id=' + user_id)
       .pipe(catchError(this.handleError<CrudResponse>('getAll')));
   }
+
+  getPlace(user_id: number, place_id: number): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(
+        this.endpoint + '?user_id=' + user_id + '&place_id=' + place_id
+      )
+      .pipe(catchError(this.handleError<CrudResponse>('getPlace')));
+  }
+
   getPlacesByCategory(
     user_id: number,
     category_id: number
