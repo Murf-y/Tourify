@@ -21,7 +21,7 @@ export class PlacePage implements OnInit {
 
   place_id!: number;
 
-  currentTab = placePageTab.OVERVIEW;
+  currentTab = placePageTab.REVIEWS;
   constructor(
     private router: Router,
     private route: ActivatedRoute,

@@ -51,14 +51,85 @@
             ></div>
           </div>
         </div>
+        <div
+          *ngIf="currentTab === 'overview'"
+          class="text-xs text-gray-400 pt-6 py-12 px-2 text-justify"
+        >
+          {{place.overview}}
+        </div>
+
+        <div *ngIf="currentTab === 'reviews'" class="pt-6 py-12 px-2">
+          <p class="text-sm font-medium text-gray dark:text-gray-400">
+            {{place.num_reviews}} global ratings
+          </p>
+          <div class="flex items-center mt-4">
+            <span class="text-sm font-medium text-primary-light">5 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+              <div
+                class="h-5 bg-primary-light rounded"
+                style="width: 70%"
+              ></div>
+            </div>
+            <span class="text-sm font-medium text-primary-light">70%</span>
+          </div>
+
+          <div class="flex items-center mt-4">
+            <span class="text-sm font-medium text-primary-light">5 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+              <div
+                class="h-5 bg-primary-light rounded"
+                style="width: 70%"
+              ></div>
+            </div>
+            <span class="text-sm font-medium text-primary-light">70%</span>
+          </div>
+
+          <div class="flex items-center mt-4">
+            <span class="text-sm font-medium text-primary-light">5 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+              <div
+                class="h-5 bg-primary-light rounded"
+                style="width: 70%"
+              ></div>
+            </div>
+            <span class="text-sm font-medium text-primary-light">70%</span>
+          </div>
+
+          <div class="flex items-center mt-4">
+            <span class="text-sm font-medium text-primary-light">5 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+              <div
+                class="h-5 bg-primary-light rounded"
+                style="width: 70%"
+              ></div>
+            </div>
+            <span class="text-sm font-medium text-primary-light">70%</span>
+          </div>
+          <div class="flex items-center mt-4">
+            <span class="text-sm font-medium text-primary-light">5 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+              <div
+                class="h-5 bg-primary-light rounded"
+                style="width: 70%"
+              ></div>
+            </div>
+            <span class="text-sm font-medium text-primary-light">70%</span>
+          </div>
+        </div>
       </div>
 
-      <div class="flex justify-between absolute bottom-2 pr-4 items-end w-full">
-        <ion-item lines="none" class="cursor-pointer" (click)="reportPlace()">
+      <div class="flex justify-between fixed bottom-2 items-end w-full">
+        <ion-item
+          lines="none"
+          class="cursor-pointer rounded-full"
+          (click)="reportPlace()"
+        >
           <ion-icon name="shield-half-outline" color="medium"></ion-icon>
           <p class="font-medium text-sm text-gray underline">report</p>
         </ion-item>
-        <div class="btn btn-primary" (click)="addToTrip()">Add To Trip</div>
+        <div class="btn btn-primary mr-4" (click)="addToTrip()">
+          Add To Trip
+        </div>
       </div>
     </div>
   </div>
