@@ -58,6 +58,11 @@ const routes: Routes = [
         (m) => m.CreateTripPageModule
       ),
   },
+  {
+    path: 'place/:id',
+    loadChildren: () =>
+      import('./pages/place/place.module').then((m) => m.PlacePagePageModule),
+  },
 ];
 @NgModule({
   imports: [
