@@ -1,4 +1,5 @@
 import { Category } from '../category';
+import { Review } from '../review';
 
 export interface Place {
   id: number;
@@ -8,9 +9,8 @@ export interface Place {
   overview: string;
   photo_url: string;
   category: Category;
+  reviews: Review[];
   added_at: string;
   tags: string[];
   isFavorited: boolean;
-  num_reviews: number;
-  avg_rating: number;
 }

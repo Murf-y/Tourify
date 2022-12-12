@@ -82,18 +82,7 @@ function getPlaceById($place_id, $user_id)
 
     $place['isFavorited'] = $place['isFavorited'] == 1;
 
-    // get the number of reviews for this place and the average rating
-
-    $sql = "SELECT COUNT(*) AS num_reviews, AVG(rating) AS avg_rating FROM reviews WHERE place_id = $place_id";
-    $result = $connection->query($sql);
-    $row = $result->fetch_assoc();
-    $place['num_reviews'] = $row['num_reviews'];
-
-    // if there are no reviews, set the average rating to 0
-    if ($row['avg_rating'] == null) {
-        $row['avg_rating'] = 0;
-    }
-    $place['avg_rating'] = $row['avg_rating'];
+    $place['reviews'] = getReviewsByPlaceId($place_id);
 
     echo json_encode(array(
         'status' => 200,

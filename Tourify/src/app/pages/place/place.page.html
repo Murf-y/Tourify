@@ -14,7 +14,11 @@
         </div>
         <div class="flex items-center justify-between gap-2">
           <ion-icon name="star" color="primary"></ion-icon>
-          <p class="text-gray">{{place.avg_rating}} ({{place.num_reviews}})</p>
+          <p class="text-gray">
+            {{average_rating}} ( {{place.reviews.length > 1000 ?
+            (place.reviews.length / 1000).toFixed(1) + 'K' :
+            place.reviews.length}})
+          </p>
         </div>
       </div>
       <div class="px-5 flex gap-1 justify-start items-center">
@@ -57,65 +61,91 @@
         >
           {{place.overview}}
         </div>
+        <div
+          *ngIf="currentTab === 'reviews' && place.reviews.length > 0"
+          class="pt-6 py-12 px-2"
+        >
 
-        <div *ngIf="currentTab === 'reviews'" class="pt-6 py-12 px-2">
+        <div class="flex justify-between items-center">
           <p class="text-sm font-medium text-gray dark:text-gray-400">
-            {{place.num_reviews}} global ratings
+            {{average_rating}} ( {{place.reviews.length > 1000 ?
+            (place.reviews.length / 1000).toFixed(1) + 'K' :
+            place.reviews.length}} ) reviews
           </p>
+          <div>
+        </div>
           <div class="flex items-center mt-4">
-            <span class="text-sm font-medium text-primary-light">5 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+            <span class="text-xs font-medium text-primary-light">5 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
               <div
                 class="h-5 bg-primary-light rounded"
-                style="width: 70%"
+                [ngStyle]="{'width': five_star_percentage + '%'}"
               ></div>
             </div>
-            <span class="text-sm font-medium text-primary-light">70%</span>
+            <span class="text-sm font-medium text-primary-light"
+              >{{five_star_percentage}}%</span
+            >
           </div>
 
           <div class="flex items-center mt-4">
-            <span class="text-sm font-medium text-primary-light">5 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+            <span class="text-xs font-medium text-primary-light">4 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
               <div
                 class="h-5 bg-primary-light rounded"
-                style="width: 70%"
+                [ngStyle]="{'width': four_star_percentage + '%'}"
               ></div>
             </div>
-            <span class="text-sm font-medium text-primary-light">70%</span>
+            <span class="text-sm font-medium text-primary-light"
+              >{{four_star_percentage}}%</span
+            >
           </div>
 
           <div class="flex items-center mt-4">
-            <span class="text-sm font-medium text-primary-light">5 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+            <span class="text-xs font-medium text-primary-light">3 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
               <div
                 class="h-5 bg-primary-light rounded"
-                style="width: 70%"
+                [ngStyle]="{'width': three_star_percentage + '%'}"
               ></div>
             </div>
-            <span class="text-sm font-medium text-primary-light">70%</span>
+            <span class="text-sm font-medium text-primary-light"
+              >{{three_star_percentage}}%</span
+            >
           </div>
 
           <div class="flex items-center mt-4">
-            <span class="text-sm font-medium text-primary-light">5 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+            <span class="text-xs font-medium text-primary-light">2 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
               <div
                 class="h-5 bg-primary-light rounded"
-                style="width: 70%"
+                [ngStyle]="{'width': two_star_percentage + '%'}"
               ></div>
             </div>
-            <span class="text-sm font-medium text-primary-light">70%</span>
+            <span class="text-sm font-medium text-primary-light"
+              >{{two_star_percentage}}%</span
+            >
           </div>
           <div class="flex items-center mt-4">
-            <span class="text-sm font-medium text-primary-light">5 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-secondary-light">
+            <span class="text-xs font-medium text-primary-light">1 star</span>
+            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
               <div
                 class="h-5 bg-primary-light rounded"
-                style="width: 70%"
+                [ngStyle]="{'width': one_star_percentage + '%'}"
               ></div>
             </div>
-            <span class="text-sm font-medium text-primary-light">70%</span>
+            <span class="text-sm font-medium text-primary-light"
+              >{{one_star_percentage}}%</span
+            >
           </div>
         </div>
+
+        <ng-template
+          *ngIf="currentTab === 'reviews' && place.reviews.length === 0"
+        >
+          <div class="font-medium text-xl pt-6 py-12 px-2 text-primary-dark">
+            No Reviews
+          </div>
+        </ng-template>
       </div>
 
       <div class="flex justify-between fixed bottom-2 items-end w-full">

@@ -14,12 +14,18 @@ enum placePageTab {
   templateUrl: './place.page.html',
   styleUrls: ['./place.page.scss'],
 })
-export class PlacePage implements OnInit {
+export class PlacePage {
   user!: User;
 
   place!: Place;
-
   place_id!: number;
+
+  average_rating: number = 0;
+  five_star_percentage = 0;
+  four_star_percentage = 0;
+  three_star_percentage = 0;
+  two_star_percentage = 0;
+  one_star_percentage = 0;
 
   currentTab = placePageTab.REVIEWS;
   constructor(
@@ -36,14 +42,69 @@ export class PlacePage implements OnInit {
     this.place_id = this.route.snapshot.params['id'];
   }
 
-  ngOnInit(): void {
-    this.placeService.getPlace(this.user.id, this.place_id).subscribe((res) => {
-      this.place = res.data.place;
-    });
-  }
   ionViewWillEnter() {
     this.placeService.getPlace(this.user.id, this.place_id).subscribe((res) => {
       this.place = res.data.place;
+
+      console.log(this.place);
+      let total_rating = this.place.reviews.reduce(
+        (acc, review) => acc + parseInt(review.rating),
+        0
+      );
+
+      this.average_rating = total_rating / this.place.reviews.length;
+      this.average_rating = Math.round(this.average_rating * 10) / 10;
+      if (isNaN(this.average_rating)) {
+        this.average_rating = 0;
+      }
+
+      let total_reviews = this.place.reviews.length;
+      let five_star = this.place.reviews.filter(
+        (review) => review.rating === '5'
+      ).length;
+      let four_star = this.place.reviews.filter(
+        (review) => review.rating === '4'
+      ).length;
+      let three_star = this.place.reviews.filter(
+        (review) => review.rating === '3'
+      ).length;
+      let two_star = this.place.reviews.filter(
+        (review) => review.rating === '2'
+      ).length;
+      let one_star = this.place.reviews.filter(
+        (review) => review.rating === '1'
+      ).length;
+
+      console.log(total_reviews);
+      console.log(four_star);
+      this.five_star_percentage = (five_star / total_reviews) * 100;
+      this.four_star_percentage = (four_star / total_reviews) * 100;
+      this.three_star_percentage = (three_star / total_reviews) * 100;
+      this.two_star_percentage = (two_star / total_reviews) * 100;
+      this.one_star_percentage = (one_star / total_reviews) * 100;
+
+      this.five_star_percentage = Math.ceil(this.five_star_percentage);
+      this.four_star_percentage = Math.ceil(this.four_star_percentage);
+      this.three_star_percentage = Math.ceil(this.three_star_percentage);
+      this.two_star_percentage = Math.ceil(this.two_star_percentage);
+      this.one_star_percentage = Math.ceil(this.one_star_percentage);
+
+      // for each percentage, if it is NaN, set it to 0
+      if (isNaN(this.five_star_percentage)) {
+        this.five_star_percentage = 0;
+      }
+      if (isNaN(this.four_star_percentage)) {
+        this.four_star_percentage = 0;
+      }
+      if (isNaN(this.three_star_percentage)) {
+        this.three_star_percentage = 0;
+      }
+      if (isNaN(this.two_star_percentage)) {
+        this.two_star_percentage = 0;
+      }
+      if (isNaN(this.one_star_percentage)) {
+        this.one_star_percentage = 0;
+      }
     });
   }
 
