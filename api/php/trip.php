@@ -1,6 +1,7 @@
 <?php
 
 include_once 'connection.php';
+include('helper.php');
 
 // allow cors and json response type in one line
 header("Access-Control-Allow-Origin: *");
@@ -113,10 +114,14 @@ if (
     $result = $connection->query($sql);
     $trip = $result->fetch_assoc();
 
-    $sql = "SELECT places.*, categories.* FROM trip_places INNER JOIN places ON trip_places.place_id = places.id INNER JOIN categories ON places.category_id = categories.id WHERE trip_places.trip_id = '$trip_id'";
+    $sql = "SELECT places.* FROM trip_places INNER JOIN places ON trip_places.place_id = places.id  WHERE trip_places.trip_id = '$trip_id'";
     $places_result = $connection->query($sql);
     $places = array();
     while ($place_row = $places_result->fetch_assoc()) {
+
+        $place_id = $place_row['id'];
+        $place_row['category'] = getCategoryById($place_id);
+        unset($place_row['category_id']);
         array_push($places, $place_row);
     }
     $trip['places'] = $places;

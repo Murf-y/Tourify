@@ -52,6 +52,7 @@ export class TripPage implements OnInit {
   ionViewWillEnter() {
     this.tripService.getTrip(this.trip_id).subscribe((res) => {
       this.trip = res.data.trip;
+      console.log(this.trip);
     });
   }
 
