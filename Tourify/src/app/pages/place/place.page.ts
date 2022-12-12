@@ -140,7 +140,15 @@ export class PlacePage {
     }
   }
 
-  reportPlace() {}
+  reportPlace() {
+    this.placeService
+      .reportPlace(this.place_id, this.user.id, this.reportReason)
+      .subscribe((res) => {
+        console.log(res);
+        this.closeModal();
+        this.reported = true;
+      });
+  }
 
   addToTrip(trip: Trip) {
     this.tripService.addPlaceToTrip(trip.id, this.place_id).subscribe((res) => {

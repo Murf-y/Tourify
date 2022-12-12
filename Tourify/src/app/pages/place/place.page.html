@@ -282,7 +282,7 @@
         </ion-item>
         <ion-modal #modal trigger="open-report-modal">
           <ng-template>
-            <ion-content>
+            <ion-content class="relative">
               <ion-toolbar class="relative">
                 <h1 class="font-medium text-white text-base">Report</h1>
                 <ion-icon
@@ -294,7 +294,7 @@
               </ion-toolbar>
 
               <div
-                *ngIf="reported; else notReportedYet"
+                *ngIf="reported"
                 class="text-center h-3/4 flex flex-col justify-center items-center"
               >
                 <ion-icon
@@ -304,7 +304,23 @@
                 ></ion-icon>
                 <p>Your report has been submitted</p>
               </div>
-              <ng-template #notReportedYet> Hello </ng-template>
+              <div *ngIf="!reported">
+                <div class="p-4">
+                  <p>Fill the reason for your report</p>
+                  <ion-textarea
+                    class="mt-4"
+                    placeholder="Reason"
+                    [(ngModel)]="reportReason"
+                    class="border border-gray-300 rounded"
+                  ></ion-textarea>
+                </div>
+                <div
+                  class="absolute btn btn-primary bottom-2 right-2"
+                  (click)="reportPlace()"
+                >
+                  Submit
+                </div>
+              </div>
             </ion-content>
           </ng-template>
         </ion-modal>

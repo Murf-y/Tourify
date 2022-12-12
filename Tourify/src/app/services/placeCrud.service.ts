@@ -106,6 +106,16 @@ export class PlaceCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('postReviewToPlace')));
   }
 
+  reportPlace(place_id: number, user_id: number, reason: string) {
+    const formData = new FormData();
+    formData.append('place_id', place_id.toString());
+    formData.append('user_id', user_id.toString());
+    formData.append('report_reason', reason);
+    return this.httpClient
+      .post<CrudResponse>(this.endpoint, formData)
+      .pipe(catchError(this.handleError<CrudResponse>('reportPlace')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
