@@ -293,6 +293,8 @@
                   <trip-card
                     *ngFor="let trip of myTrips"
                     [trip]="trip"
+                    class="cursor-pointer"
+                    (click)="addToTrip(trip)"
                   ></trip-card>
                 </ion-list>
               </div>

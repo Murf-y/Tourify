@@ -45,6 +45,16 @@ export class TripCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
   }
 
+  addPlaceToTrip(trip_id: string, place_id: number): Observable<CrudResponse> {
+    const formData = new FormData();
+    formData.append('trip_id', trip_id);
+    formData.append('place_id', place_id.toString());
+
+    return this.httpClient
+      .post<CrudResponse>(this.endpoint, formData)
+      .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

@@ -34,6 +34,37 @@ if (
             "message" => "Internal Server Error"
         ));
     }
+    // post and place_id and trip_id set
+} else if (
+    $_SERVER['REQUEST_METHOD'] == 'POST'
+    && isset($_POST['place_id'])
+    && isset($_POST['trip_id'])
+) {
+    $place_id = $_POST['place_id'];
+    $trip_id = $_POST['trip_id'];
+
+    $sql = "SELECT * FROM trip_places WHERE place_id = '$place_id' AND trip_id = '$trip_id'";
+    $result = $connection->query($sql);
+    if ($result->num_rows > 0) {
+        echo json_encode(array(
+            "status" => 400,
+            "message" => "Bad Request"
+        ));
+        return;
+    }
+
+    $sql = "INSERT INTO trip_places (place_id, trip_id) VALUES ('$place_id', '$trip_id')";
+    if ($connection->query($sql) === TRUE) {
+        echo json_encode(array(
+            "status" => 200,
+            "data" => "Place added to trip successfully"
+        ));
+    } else {
+        echo json_encode(array(
+            "status" => 500,
+            "message" => "Internal Server Error"
+        ));
+    }
 } else if (
     $_SERVER['REQUEST_METHOD'] == 'GET'
     && isset($_GET['user_id'])

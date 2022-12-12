@@ -139,7 +139,12 @@ export class PlacePage {
 
   reportPlace() {}
 
-  addToTrip() {}
+  addToTrip(trip: Trip) {
+    this.tripService.addPlaceToTrip(trip.id, this.place_id).subscribe((res) => {
+      console.log(res);
+      this.closeModal();
+    });
+  }
 
   submitReview() {
     this.placeService
