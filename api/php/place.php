@@ -50,6 +50,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_G
 
     addReview($place_id, $user_id, $rating, $review);
     return;
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($_POST['user_id']) && isset($_POST['report_reason'])) {
+    $place_id = $_POST['place_id'];
+    $user_id = $_POST['user_id'];
+    $report_reason = $_POST['report_reason'];
+
+    // check if the user has already reported this place
+
+    $sql = "SELECT * FROM reports WHERE place_id = $place_id AND user_id = $user_id";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo json_encode(array(
+            'status' => 500,
+            'data' => [
+                "message" => "You have already reported this place"
+            ]
+        ));
+        return;
+    }
+
+    addReport($place_id, $user_id, $report_reason);
+    return;
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($_POST['user_id']) && isset($_POST['is_favorited'])) {
     $place_id = $_POST['place_id'];
     $user_id = $_POST['user_id'];
@@ -78,6 +100,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_G
         "status" => 400,
         "message" => "Bad Request"
     ));
+}
+
+
+function addReport($place_id, $user_id, $report_reason)
+{
+    global $connection;
+    $sql = "INSERT INTO reports (place_id, user_id, report_reason) VALUES ($place_id, $user_id, '$report_reason')";
+    $result = $connection->query($sql);
+
+    if ($result) {
+        echo json_encode(array(
+            'status' => 200,
+            'data' => [
+                "message" => "Report added successfully"
+            ]
+        ));
+    }
 }
 
 
