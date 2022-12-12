@@ -272,8 +272,42 @@
           (click)="reportPlace()"
         >
           <ion-icon name="shield-half-outline" color="medium"></ion-icon>
-          <p class="font-medium text-sm text-gray underline">report</p>
+          <p
+            class="font-medium text-sm text-gray underline"
+            id="open-report-modal"
+            expand="block"
+          >
+            report
+          </p>
         </ion-item>
+        <ion-modal #modal trigger="open-report-modal">
+          <ng-template>
+            <ion-content>
+              <ion-toolbar class="relative">
+                <h1 class="font-medium text-white text-base">Report</h1>
+                <ion-icon
+                  name="close"
+                  size="large"
+                  (click)="modal.dismiss()"
+                  class="absolute right-2 bottom-1/3"
+                ></ion-icon>
+              </ion-toolbar>
+
+              <div
+                *ngIf="reported; else notReportedYet"
+                class="text-center h-3/4 flex flex-col justify-center items-center"
+              >
+                <ion-icon
+                  name="shield-checkmark"
+                  color="primary"
+                  size="large"
+                ></ion-icon>
+                <p>Your report has been submitted</p>
+              </div>
+              <ng-template #notReportedYet> Hello </ng-template>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
         <div
           class="btn btn-primary mr-4"
           id="open-add-to-trip-modal"

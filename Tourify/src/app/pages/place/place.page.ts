@@ -36,6 +36,9 @@ export class PlacePage {
   rating = 0;
   review = '';
 
+  reportReason = '';
+  reported = false;
+
   myTrips: Trip[] = [];
 
   constructor(
