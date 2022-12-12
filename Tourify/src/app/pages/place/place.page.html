@@ -207,6 +207,54 @@
                 >{{one_star_percentage}}%</span
               >
             </div>
+
+            <ion-list lines="none" class="flex flex-col gap-2 mt-4 pl-0">
+              <ion-item
+                *ngFor="let review of place.reviews"
+                color="medium-light"
+                class="rounded"
+              >
+                <ion-avatar slot="start">
+                  <img
+                    [src]="review.author.profile_photo_url"
+                    [alt]="review.author.username"
+                  />
+                </ion-avatar>
+                <ion-label class="ml-2 text-sm">
+                  <h2>
+                    {{review.author.username}}
+                    <span>
+                      <ion-icon
+                        name="star"
+                        [color]="review.rating >= '1' ? 'primary' : 'medium'"
+                        class="text-sm"
+                      ></ion-icon>
+                      <ion-icon
+                        name="star"
+                        [color]="review.rating >= '2' ? 'primary' : 'medium'"
+                        class="text-sm"
+                      ></ion-icon>
+                      <ion-icon
+                        name="star"
+                        [color]="review.rating >= '3' ? 'primary' : 'medium'"
+                        class="text-sm"
+                      ></ion-icon>
+                      <ion-icon
+                        name="star"
+                        [color]="review.rating >= '4' ? 'primary' : 'medium'"
+                        class="text-sm"
+                      ></ion-icon>
+                      <ion-icon
+                        name="star"
+                        [color]="review.rating >= '5' ? 'primary' : 'medium'"
+                        class="text-sm"
+                      ></ion-icon>
+                    </span>
+                  </h2>
+                  <p class="text-base">{{review.review}}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
           </div>
 
           <div *ngIf="place.reviews.length === 0">
