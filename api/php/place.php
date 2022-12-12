@@ -37,6 +37,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_G
     $user_id = $_GET['user_id'];
     $place_id = $_GET['place_id'];
     getPlaceById($place_id, $user_id);
+
+    // post and place_id and user_id and rating and review is set
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($_POST['user_id']) && isset($_POST['rating']) && isset($_POST['review'])) {
+    $place_id = $_POST['place_id'];
+    $user_id = $_POST['user_id'];
+    $rating = $_POST['rating'];
+    $review = $_POST['review'];
+
+    addReview($place_id, $user_id, $rating, $review);
 } else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_id']) && isset($_POST['user_id']) && isset($_POST['is_favorited'])) {
     $place_id = $_POST['place_id'];
     $user_id = $_POST['user_id'];
