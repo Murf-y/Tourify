@@ -46,6 +46,8 @@ export class TripPage implements OnInit {
   ngOnInit(): void {
     this.tripService.getTrip(this.trip_id).subscribe((res) => {
       this.trip = res.data.trip;
+
+      this.emptyPlaces = this.trip.places.length == 0;
     });
   }
 
@@ -53,6 +55,8 @@ export class TripPage implements OnInit {
     this.tripService.getTrip(this.trip_id).subscribe((res) => {
       this.trip = res.data.trip;
       console.log(this.trip);
+
+      this.emptyPlaces = this.trip.places.length == 0;
     });
   }
 

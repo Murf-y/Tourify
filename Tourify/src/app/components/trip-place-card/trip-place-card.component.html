@@ -1,3 +1,33 @@
-<p>
-  trip-place-card works!
-</p>
+<div class="flex w-full">
+  <div class="w-fit">
+    <img src="assets/images/trip_place_card_left.svg" alt="" />
+  </div>
+  <div
+    class="flex justify-start items-center gap-4 w-full mb-6 rounded-xl py-2 px-2"
+    (click)="goToPlace()"
+  >
+    <div class="flex justify-center items-center w-[5rem] h-[4.5rem]">
+      <img
+        class="w-full h-full rounded-lg object-cover"
+        src="{{ place.photo_url }}"
+        alt="card-image"
+      />
+    </div>
+    <div class="flex flex-col justify-between flex-grow h-full gap-[0.15rem]">
+      <div class="flex justify-between items-center">
+        <h4 class="font-medium text-sm">{{ place.name }}</h4>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <div class="text-gray text-xs flex gap-1 items-center">
+          <img src="assets/icon/card_location.svg" alt="" />
+          <p>{{ place.district }}, {{ place.city }}</p>
+        </div>
+      </div>
+      <div class="text-gray text-xs flex gap-1 items-center">
+        <img src="assets/icon/card_category.svg" alt="" />
+        <p>{{ place.category.name }}</p>
+      </div>
+    </div>
+  </div>
+</div>
