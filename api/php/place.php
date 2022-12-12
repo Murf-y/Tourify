@@ -77,6 +77,44 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_G
 }
 
 
+function addReview($place_id, $user_id, $rating, $review)
+{
+    // check if the user has already reviewed this place
+    global $connection;
+    $sql = "SELECT * FROM reviews WHERE place_id = $place_id AND user_id = $user_id";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo json_encode(array(
+            'status' => 500,
+            'data' => [
+                "message" => "You have already reviewed this place"
+            ]
+        ));
+        return;
+    }
+
+
+    $sql = "INSERT INTO reviews (place_id, user_id, rating, review) VALUES ($place_id, $user_id, $rating, '$review')";
+    $result = $connection->query($sql);
+
+    if ($result) {
+        echo json_encode(array(
+            'status' => 200,
+            'data' => [
+                "message" => "Review added successfully"
+            ]
+        ));
+    } else {
+        echo json_encode(array(
+            'status' => 500,
+            'data' => [
+                "message" => "Error adding review"
+            ]
+        ));
+    }
+}
+
 function getPlaceById($place_id, $user_id)
 {
     global $connection;
