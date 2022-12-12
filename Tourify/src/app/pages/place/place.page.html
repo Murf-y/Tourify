@@ -61,91 +61,161 @@
         >
           {{place.overview}}
         </div>
-        <div
-          *ngIf="currentTab === 'reviews' && place.reviews.length > 0"
-          class="pt-6 py-12 px-2"
-        >
+        <div *ngIf="currentTab === 'reviews'">
+          <div
+            class="btn btn-outlined mt-4"
+            *ngIf="!alreadyReviewed"
+            id="open-modal"
+            expand="block"
+          >
+            review
+          </div>
+          <ion-modal #modal trigger="open-modal">
+            <ng-template>
+              <ion-content>
+                <ion-toolbar>
+                  <h1 class="font-medium text-white text-base">Review</h1>
+                  <ion-buttons slot="end">
+                    <ion-button color="light" (click)="modal.dismiss()"
+                      >Close</ion-button
+                    >
+                  </ion-buttons>
+                </ion-toolbar>
+                <div class="p-4">
+                  <div>Pick a Rating!</div>
+                  <div class="flex gap-2 my-2">
+                    <ion-icon
+                      name="star"
+                      [color]="rating >= 1 ? 'primary' : 'medium'"
+                      class="text-2xl cursor-pointer"
+                      (click)="rating = 1"
+                    ></ion-icon>
+                    <ion-icon
+                      name="star"
+                      [color]="rating >= 2 ? 'primary' : 'medium'"
+                      class="text-2xl cursor-pointer"
+                      (click)="rating = 2"
+                    ></ion-icon>
+                    <ion-icon
+                      name="star"
+                      [color]="rating >= 3 ? 'primary' : 'medium'"
+                      class="text-2xl cursor-pointer"
+                      (click)="rating = 3"
+                    ></ion-icon>
+                    <ion-icon
+                      name="star"
+                      [color]="rating >= 4 ? 'primary' : 'medium'"
+                      class="text-2xl cursor-pointer"
+                      (click)="rating = 4"
+                    ></ion-icon>
+                    <ion-icon
+                      name="star"
+                      [color]="rating >= 5 ? 'primary' : 'medium'"
+                      class="text-2xl cursor-pointer"
+                      (click)="rating = 5"
+                    ></ion-icon>
+                  </div>
+                  <div>Optional Review</div>
+                  <div class="mt-4 border-4 p-2 border-gray-300 rounded-md">
+                    <ion-textarea
+                      placeholder="Write a review"
+                      [autoGrow]="true"
+                      [(ngModel)]="review"
+                      maxlength="500"
+                    ></ion-textarea>
+                  </div>
 
-        <div class="flex justify-between items-center">
-          <p class="text-sm font-medium text-gray dark:text-gray-400">
-            {{average_rating}} ( {{place.reviews.length > 1000 ?
-            (place.reviews.length / 1000).toFixed(1) + 'K' :
-            place.reviews.length}} ) reviews
-          </p>
-          <div>
+                  <div
+                    class="btn btn-primary ml-2 absolute bottom-2 right-2"
+                    (click)="submitReview()"
+                    expand="block"
+                  >
+                    Submit
+                  </div>
+                </div>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+
+          <div *ngIf="place.reviews.length > 0" class="pt-6 py-12 px-2">
+            >
+            <p class="text-sm font-medium mt-2 text-gray dark:text-gray-400">
+              {{average_rating}} ( {{place.reviews.length > 1000 ?
+              (place.reviews.length / 1000).toFixed(1) + 'K' :
+              place.reviews.length}} ) reviews
+            </p>
+
+            <div class="flex items-center mt-4">
+              <span class="text-xs font-medium text-primary-light">5 star</span>
+              <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
+                <div
+                  class="h-5 bg-primary-light rounded"
+                  [ngStyle]="{'width': five_star_percentage + '%'}"
+                ></div>
+              </div>
+              <span class="text-sm font-medium text-primary-light"
+                >{{five_star_percentage}}%</span
+              >
+            </div>
+
+            <div class="flex items-center mt-4">
+              <span class="text-xs font-medium text-primary-light">4 star</span>
+              <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
+                <div
+                  class="h-5 bg-primary-light rounded"
+                  [ngStyle]="{'width': four_star_percentage + '%'}"
+                ></div>
+              </div>
+              <span class="text-sm font-medium text-primary-light"
+                >{{four_star_percentage}}%</span
+              >
+            </div>
+
+            <div class="flex items-center mt-4">
+              <span class="text-xs font-medium text-primary-light">3 star</span>
+              <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
+                <div
+                  class="h-5 bg-primary-light rounded"
+                  [ngStyle]="{'width': three_star_percentage + '%'}"
+                ></div>
+              </div>
+              <span class="text-sm font-medium text-primary-light"
+                >{{three_star_percentage}}%</span
+              >
+            </div>
+
+            <div class="flex items-center mt-4">
+              <span class="text-xs font-medium text-primary-light">2 star</span>
+              <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
+                <div
+                  class="h-5 bg-primary-light rounded"
+                  [ngStyle]="{'width': two_star_percentage + '%'}"
+                ></div>
+              </div>
+              <span class="text-sm font-medium text-primary-light"
+                >{{two_star_percentage}}%</span
+              >
+            </div>
+            <div class="flex items-center mt-4">
+              <span class="text-xs font-medium text-primary-light">1 star</span>
+              <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
+                <div
+                  class="h-5 bg-primary-light rounded"
+                  [ngStyle]="{'width': one_star_percentage + '%'}"
+                ></div>
+              </div>
+              <span class="text-sm font-medium text-primary-light"
+                >{{one_star_percentage}}%</span
+              >
+            </div>
+          </div>
+
+          <div *ngIf="place.reviews.length === 0">
+            <div class="font-medium text-xl pt-6 py-12 px-2 text-primary-dark">
+              No Reviews
+            </div>
+          </div>
         </div>
-          <div class="flex items-center mt-4">
-            <span class="text-xs font-medium text-primary-light">5 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
-              <div
-                class="h-5 bg-primary-light rounded"
-                [ngStyle]="{'width': five_star_percentage + '%'}"
-              ></div>
-            </div>
-            <span class="text-sm font-medium text-primary-light"
-              >{{five_star_percentage}}%</span
-            >
-          </div>
-
-          <div class="flex items-center mt-4">
-            <span class="text-xs font-medium text-primary-light">4 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
-              <div
-                class="h-5 bg-primary-light rounded"
-                [ngStyle]="{'width': four_star_percentage + '%'}"
-              ></div>
-            </div>
-            <span class="text-sm font-medium text-primary-light"
-              >{{four_star_percentage}}%</span
-            >
-          </div>
-
-          <div class="flex items-center mt-4">
-            <span class="text-xs font-medium text-primary-light">3 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
-              <div
-                class="h-5 bg-primary-light rounded"
-                [ngStyle]="{'width': three_star_percentage + '%'}"
-              ></div>
-            </div>
-            <span class="text-sm font-medium text-primary-light"
-              >{{three_star_percentage}}%</span
-            >
-          </div>
-
-          <div class="flex items-center mt-4">
-            <span class="text-xs font-medium text-primary-light">2 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
-              <div
-                class="h-5 bg-primary-light rounded"
-                [ngStyle]="{'width': two_star_percentage + '%'}"
-              ></div>
-            </div>
-            <span class="text-sm font-medium text-primary-light"
-              >{{two_star_percentage}}%</span
-            >
-          </div>
-          <div class="flex items-center mt-4">
-            <span class="text-xs font-medium text-primary-light">1 star</span>
-            <div class="w-2/4 h-5 mx-4 rounded bg-gray-600">
-              <div
-                class="h-5 bg-primary-light rounded"
-                [ngStyle]="{'width': one_star_percentage + '%'}"
-              ></div>
-            </div>
-            <span class="text-sm font-medium text-primary-light"
-              >{{one_star_percentage}}%</span
-            >
-          </div>
-        </div>
-
-        <ng-template
-          *ngIf="currentTab === 'reviews' && place.reviews.length === 0"
-        >
-          <div class="font-medium text-xl pt-6 py-12 px-2 text-primary-dark">
-            No Reviews
-          </div>
-        </ng-template>
       </div>
 
       <div class="flex justify-between fixed bottom-2 items-end w-full">

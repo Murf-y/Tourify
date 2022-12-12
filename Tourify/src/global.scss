@@ -56,6 +56,11 @@
     @apply bg-gray-200 text-gray-400 bg-opacity-100 border-transparent
     hover:bg-gray-200 hover:bg-opacity-100 hover:text-gray-400 cursor-not-allowed;
   }
+
+  .btn-outlined {
+    @apply bg-transparent text-primary border-primary
+    hover:bg-primary hover:bg-opacity-100 hover:text-white;
+  }
 }
 
 * {

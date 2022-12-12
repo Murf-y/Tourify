@@ -20,6 +20,11 @@ function getReviewsByPlaceId($place_id)
         unset($review['user_id']);
         $reviews[] = $review;
     }
+
+    // if reviews is null, return empty array
+    if (!isset($reviews)) {
+        $reviews = [];
+    }
     return $reviews;
 }
 

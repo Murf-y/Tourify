@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Place } from 'app/models/place';
 import { User } from 'app/models/user';
 import { PlaceCrudService } from 'app/services/placeCrud.service';
@@ -28,10 +29,15 @@ export class PlacePage {
   one_star_percentage = 0;
 
   currentTab = placePageTab.REVIEWS;
+  alreadyReviewed = false;
+
+  rating = 0;
+  review = '';
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private placeService: PlaceCrudService
+    private placeService: PlaceCrudService,
+    private modalCtrl: ModalController
   ) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
 
@@ -42,11 +48,20 @@ export class PlacePage {
     this.place_id = this.route.snapshot.params['id'];
   }
 
+  async closeModal() {
+    const modal = await this.modalCtrl.getTop();
+    modal?.dismiss();
+  }
+
   ionViewWillEnter() {
     this.placeService.getPlace(this.user.id, this.place_id).subscribe((res) => {
       this.place = res.data.place;
 
       console.log(this.place);
+      this.alreadyReviewed =
+        this.place.reviews.filter((review) => review.author.id === this.user.id)
+          .length > 0;
+
       let total_rating = this.place.reviews.reduce(
         (acc, review) => acc + parseInt(review.rating),
         0
@@ -119,4 +134,14 @@ export class PlacePage {
   reportPlace() {}
 
   addToTrip() {}
+
+  submitReview() {
+    this.placeService
+      .postReviewToPlace(this.user.id, this.place_id, this.rating, this.review)
+      .subscribe((res) => {
+        console.log(res);
+        this.closeModal();
+        this.ionViewWillEnter();
+      });
+  }
 }
