@@ -65,12 +65,12 @@
           <div
             class="btn btn-outlined mt-4"
             *ngIf="!alreadyReviewed"
-            id="open-modal"
+            id="open-review-modal"
             expand="block"
           >
             review
           </div>
-          <ion-modal #modal trigger="open-modal">
+          <ion-modal #modal trigger="open-review-modal">
             <ng-template>
               <ion-content>
                 <ion-toolbar>
@@ -274,9 +274,31 @@
           <ion-icon name="shield-half-outline" color="medium"></ion-icon>
           <p class="font-medium text-sm text-gray underline">report</p>
         </ion-item>
-        <div class="btn btn-primary mr-4" (click)="addToTrip()">
+        <div
+          class="btn btn-primary mr-4"
+          id="open-add-to-trip-modal"
+          expand="block"
+        >
           Add To Trip
         </div>
+        <ion-modal #modal trigger="open-add-to-trip-modal">
+          <ng-template>
+            <ion-content>
+              <div class="p-4">
+                <div class="flex justify-between items-center">
+                  <h1 class="font-medium text-xl">Pick a Trip</h1>
+                  <div class="btn btn-primary">Create Trip</div>
+                </div>
+                <ion-list lines="none" class="mt-4">
+                  <trip-card
+                    *ngFor="let trip of myTrips"
+                    [trip]="trip"
+                  ></trip-card>
+                </ion-list>
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
       </div>
     </div>
   </div>

@@ -7,10 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { TripsPageRoutingModule } from './trips-routing.module';
 
 import { TripsPage } from './trips.page';
-import { TripCardComponent } from 'app/components/trip-card/trip-card.component';
-
+import { TripCardComponentModule } from 'app/components/trip-card/trip-card.component.module';
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, TripsPageRoutingModule],
-  declarations: [TripsPage, TripCardComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    TripsPageRoutingModule,
+    TripCardComponentModule,
+  ],
+  declarations: [TripsPage],
 })
 export class TripsPageModule {}

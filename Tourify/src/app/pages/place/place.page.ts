@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Place } from 'app/models/place';
+import { Trip } from 'app/models/trip';
 import { User } from 'app/models/user';
 import { PlaceCrudService } from 'app/services/placeCrud.service';
+import { TripCrudService } from 'app/services/tripCrud.service';
 
 enum placePageTab {
   OVERVIEW = 'overview',
@@ -28,15 +30,19 @@ export class PlacePage {
   two_star_percentage = 0;
   one_star_percentage = 0;
 
-  currentTab = placePageTab.REVIEWS;
+  currentTab = placePageTab.OVERVIEW;
   alreadyReviewed = false;
 
   rating = 0;
   review = '';
+
+  myTrips: Trip[] = [];
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private placeService: PlaceCrudService,
+    private tripService: TripCrudService,
     private modalCtrl: ModalController
   ) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
@@ -117,6 +123,10 @@ export class PlacePage {
         this.one_star_percentage = 0;
       }
     });
+
+    this.tripService.getAll(this.user.id).subscribe((res) => {
+      this.myTrips = res.data.trips;
+    });
   }
 
   toggleTab() {
@@ -132,10 +142,6 @@ export class PlacePage {
   addToTrip() {}
 
   submitReview() {
-    console.log(this.user.id);
-    console.log(this.place_id);
-    console.log(this.rating);
-    console.log(this.review.length);
     this.placeService
       .postReviewToPlace(this.place_id, this.user.id, this.rating, this.review)
       .subscribe((res) => {

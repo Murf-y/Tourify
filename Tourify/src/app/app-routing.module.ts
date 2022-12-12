@@ -61,7 +61,7 @@ const routes: Routes = [
   {
     path: 'place/:id',
     loadChildren: () =>
-      import('./pages/place/place.module').then((m) => m.PlacePagePageModule),
+      import('./pages/place/place.module').then((m) => m.PlacePageModule),
   },
 ];
 @NgModule({
