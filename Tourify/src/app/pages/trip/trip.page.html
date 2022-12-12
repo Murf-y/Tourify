@@ -19,11 +19,22 @@
   </div>
 
   <ion-list [inset]="true" *ngIf="!emptyPlaces; else isEmpty" lines="none">
-    <trip-place-card
-      *ngFor="let place of trip.places"
-      [place]="place"
-    ></trip-place-card>
+    <ion-reorder-group
+      [disabled]="false"
+      (ionItemReorder)="handleReorder($any($event))"
+    >
+      <ion-reorder *ngFor="let place of trip.places">
+        <trip-place-card [place]="place"></trip-place-card>
+      </ion-reorder>
+    </ion-reorder-group>
+
+    <img
+      src="assets/images/trip_place_card_left_bttom.svg"
+      alt=""
+      class="pl-[1px]"
+    />
   </ion-list>
+
   <ng-template #isEmpty>
     <div class="flex flex-col justify-center items-center mt-12">
       <img src="assets/images/empty_state_3.svg" alt="" />
