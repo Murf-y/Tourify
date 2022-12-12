@@ -1,6 +1,17 @@
 <ion-content #content>
   <div class="h-screen relative w-full" *ngIf="place">
     <img class="h-[50%] object-cover object-center" src="{{place.photo_url}}" />
+
+    <!-- linear gradient top is full black and bottom is transarent -->
+    <div
+      class="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-black to-transparent"
+    ></div>
+    <ion-icon
+      name="arrow-back"
+      class="absolute top-3 left-3"
+      color="light"
+      (click)="goBack()"
+    ></ion-icon>
     <div class="h-[50%] w-full relative">
       <div
         class="absolute h-16 bg-white z-10 -top-14 w-full rounded-t-[2.5rem] font-medium text-2xl py-3 px-5 flex items-end"

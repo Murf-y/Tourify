@@ -1,3 +1,4 @@
+import { LocationStrategy } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
@@ -46,7 +47,8 @@ export class PlacePage {
     private route: ActivatedRoute,
     private placeService: PlaceCrudService,
     private tripService: TripCrudService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private locationStrategy: LocationStrategy
   ) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
 
@@ -138,6 +140,10 @@ export class PlacePage {
     } else {
       this.currentTab = placePageTab.OVERVIEW;
     }
+  }
+
+  goBack() {
+    this.locationStrategy.back();
   }
 
   reportPlace() {
