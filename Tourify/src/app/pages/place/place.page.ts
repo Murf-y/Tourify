@@ -56,8 +56,6 @@ export class PlacePage {
   ionViewWillEnter() {
     this.placeService.getPlace(this.user.id, this.place_id).subscribe((res) => {
       this.place = res.data.place;
-
-      console.log(this.place);
       this.alreadyReviewed =
         this.place.reviews.filter((review) => review.author.id === this.user.id)
           .length > 0;
@@ -74,7 +72,7 @@ export class PlacePage {
       }
 
       let total_reviews = this.place.reviews.length;
-      let five_star = this.place.reviews.filter(
+      let five_star: number = this.place.reviews.filter(
         (review) => review.rating === '5'
       ).length;
       let four_star = this.place.reviews.filter(
@@ -90,8 +88,6 @@ export class PlacePage {
         (review) => review.rating === '1'
       ).length;
 
-      console.log(total_reviews);
-      console.log(four_star);
       this.five_star_percentage = (five_star / total_reviews) * 100;
       this.four_star_percentage = (four_star / total_reviews) * 100;
       this.three_star_percentage = (three_star / total_reviews) * 100;
@@ -136,8 +132,12 @@ export class PlacePage {
   addToTrip() {}
 
   submitReview() {
+    console.log(this.user.id);
+    console.log(this.place_id);
+    console.log(this.rating);
+    console.log(this.review.length);
     this.placeService
-      .postReviewToPlace(this.user.id, this.place_id, this.rating, this.review)
+      .postReviewToPlace(this.place_id, this.user.id, this.rating, this.review)
       .subscribe((res) => {
         console.log(res);
         this.closeModal();
