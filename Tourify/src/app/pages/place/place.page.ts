@@ -141,6 +141,10 @@ export class PlacePage {
   }
 
   reportPlace() {
+    if (this.reportReason === '') {
+      return;
+    }
+
     this.placeService
       .reportPlace(this.place_id, this.user.id, this.reportReason)
       .subscribe((res) => {

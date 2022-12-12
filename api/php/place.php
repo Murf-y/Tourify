@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_G
 function addReport($place_id, $user_id, $report_reason)
 {
     global $connection;
-    $sql = "INSERT INTO reports (place_id, user_id, report_reason) VALUES ($place_id, $user_id, '$report_reason')";
+    $sql = "INSERT INTO reports (place_id, user_id, reason) VALUES ($place_id, $user_id, '$report_reason')";
     $result = $connection->query($sql);
 
     if ($result) {
