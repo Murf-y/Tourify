@@ -1,9 +1,51 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="relative">
+  <ion-icon
+    name="arrow-back"
+    size="large"
+    class="mt-4 ml-4"
+    (click)="goBack()"
+  ></ion-icon>
 
-<ion-content>
+  <div class="flex w-full justify-start px-4 mt-4 h-28 gap-4">
+    <img
+      src="{{profileUser.profile_photo_url}}"
+      class="w-28 rounded-lg border-primary border-2 border-solid"
+      alt="profile photo"
+    />
+    <div class="flex flex-col justify-between h-full w-full">
+      <div class="flex w-full justify-between items-center">
+        <h1 class="font-medium text-xl">{{profileUser.username}}</h1>
+        <ion-icon
+          src="assets/icon/edit_pen.svg"
+          *ngIf="viewingOwnProfile"
+        ></ion-icon>
+      </div>
+      <div class="flex flex-col gap-3 text-gray text-sm">
+        <h1>Joined at:</h1>
+        <div class="flex gap-2 items-centerh">
+          <ion-icon name="calendar-number-outline" class="text-lg"></ion-icon>
+          <h1>{{profileUser.joined_at | date: 'dd/MM/yyyy'}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="w-full px-4 mt-24">
+    <div class="flex flex-col gap-2 bg-gray-200 rounded p-4">
+      <div class="flex justify-between items-center">
+        <div class="flex gap-2 items-start">
+          <ion-icon src="assets/icon/coin.svg" size="large"></ion-icon>
+          <h2 class="text-lg">Credit Score:</h2>
+        </div>
+        <h1 class="font-medium text-lg">{{profileUser.credit_score}}</h1>
+      </div>
+      <div class="flex justify-between items-center">
+        <div class="flex gap-2 items-start">
+          <ion-icon src="assets/icon/rank.svg" size="large"></ion-icon>
+          <h2 class="text-lg">Rank:</h2>
+        </div>
+        <h1 class="font-medium text-lg">64</h1>
+      </div>
+    </div>
+  </div>
 </ion-content>

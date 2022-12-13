@@ -1,3 +1,4 @@
+import { LocationStrategy } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'app/models/user';
@@ -13,10 +14,13 @@ export class ProfilePage {
 
   profileUser!: User;
 
+  viewingOwnProfile = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userSerivce: UserCrudService
+    private userSerivce: UserCrudService,
+    private location: LocationStrategy
   ) {
     this.currentUser = JSON.parse(
       sessionStorage.getItem('current_user') || '{}'
@@ -29,12 +33,16 @@ export class ProfilePage {
     this.route.params.subscribe((params) => {
       let id = params['id'];
       if (id === this.currentUser.id) {
-        this.profileUser = this.currentUser;
-        return;
+        this.viewingOwnProfile = true;
       }
       this.userSerivce.getUser(id).subscribe((res) => {
         this.profileUser = res.data.user;
+        console.log(this.profileUser);
       });
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

@@ -97,6 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
+        // add the rank based on the credit score
+        $sql = "SELECT 1 + COUNT(*) AS rank FROM users WHERE credit_score > (SELECT credit_score FROM users WHERE id = $user_id)";
+        $result = $connection->query($sql);
+        $user["rank"] = $result->fetch_assoc()['rank'];
+
         unset($user['password']);
         unset($user['email']);
         echo json_encode(array(
