@@ -58,7 +58,7 @@ export class ProfilePage {
     });
   }
   goBack() {
-    this.router.navigate(['/tabs']);
+    this.location.back();
   }
 
   loadMore(event: any) {
