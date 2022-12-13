@@ -1,4 +1,4 @@
-<ion-content class="relative">
+<ion-content class="relative" *ngIf="profileUser">
   <ion-icon
     name="arrow-back"
     size="large"
@@ -44,8 +44,10 @@
           <ion-icon src="assets/icon/rank.svg" size="large"></ion-icon>
           <h2 class="text-lg">Rank:</h2>
         </div>
-        <h1 class="font-medium text-lg">64</h1>
+        <h1 class="font-medium text-lg">{{profileUser.rank}}</h1>
       </div>
     </div>
   </div>
+
+  <div class="absolute bottom-4 left-4 btn btn-outlined">leaderboard</div>
 </ion-content>

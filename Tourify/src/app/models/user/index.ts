@@ -5,4 +5,5 @@ export interface User {
   joined_at: string;
   profile_photo_url: string;
   credit_score: number;
+  rank: number;
 }

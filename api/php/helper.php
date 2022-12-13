@@ -35,3 +35,9 @@ function getUserById($id)
     $result = $connection->query($sql);
     return $result->fetch_assoc();
 }
+
+function sendEmail($to, $subject, $body)
+{
+    $headers = "From: tourify.co@gmail.com";
+    mail($to, $subject, $body, $headers);
+}
