@@ -86,4 +86,8 @@ export class HomePage {
       }
     }
   }
+
+  goToProfile() {
+    this.router.navigate(['/profile', this.user.id]);
+  }
 }

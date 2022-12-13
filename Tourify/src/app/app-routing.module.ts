@@ -63,6 +63,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/place/place.module').then((m) => m.PlacePageModule),
   },
+  {
+    path: 'profile/:id',
+    loadChildren: () =>
+      import('./pages/profile/profile.module').then((m) => m.ProfilePageModule),
+  },
 ];
 @NgModule({
   imports: [

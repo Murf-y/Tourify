@@ -42,6 +42,12 @@ export class UserCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
   }
 
+  getUser(user_id: number): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?user_id=' + user_id)
+      .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
