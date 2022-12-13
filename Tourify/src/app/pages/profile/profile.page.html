@@ -50,6 +50,50 @@
     </div>
   </div>
 
+  <ion-modal #modal trigger="open-editprofile-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="relative text-center">
+          <ion-title>Edit Your Profile</ion-title>
+          <ion-icon
+            name="arrow-back"
+            class="absolute top-3 left-3 text-lg"
+            (click)="modal.dismiss()"
+          ></ion-icon>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="relative">
+        <div
+          class="border-dashed border-gray border-2 gap-4 flex flex-col items-center justify-center m-4 p-4"
+          (click)="changeProfilePicture()"
+        >
+          <img
+            src="{{profileUser.profile_photo_url}}"
+            class="w-24 rounded-lg border-primary border-2 border-solid"
+            alt="profile photo"
+          />
+          <h2>Update Profile Picture</h2>
+        </div>
+
+        <ion-item class="mt-6 mx-4">
+          <ion-label position="floating">{{currentUser.username}}</ion-label>
+          <ion-input
+            placeholder="Change Username"
+            inputmode="name"
+            [(ngModel)]="newUsername"
+          ></ion-input>
+        </ion-item>
+
+        <div
+          class="absolute bottom-4 right-4 btn btn-primary"
+          (click)="updateProfile()"
+        >
+          UPDATE
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
   <ion-modal #modal trigger="open-leaderboard-modal">
     <ng-template>
       <ion-header>

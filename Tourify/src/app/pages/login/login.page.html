@@ -22,15 +22,20 @@
         ></ion-input>
         <ion-note slot="error">Invalid email</ion-note>
       </ion-item>
-      <!-- add same thing but for passsword -->
-      <ion-item class="mr-6">
+
+      <ion-item class="mr-6 relative">
         <ion-label position="floating">Password</ion-label>
         <ion-input
           placeholder="********"
           inputmode="password"
           [(ngModel)]="password"
+          type="{{showPassword ? 'text' : 'password'}}"
         ></ion-input>
-        <ion-note slot="error">Invalid password</ion-note>
+        <ion-icon
+          name="{{showPassword ? 'eye-off-outline' : 'eye-outline'}}"
+          (click)="togglePassword($event)"
+          class="absolute right-2 bottom-2 z-100 text-xl"
+        ></ion-icon>
       </ion-item>
 
       <div class="flex justify-between items-center">
@@ -42,6 +47,9 @@
           <ion-icon name="arrow-forward-outline"></ion-icon>
         </div>
       </div>
+      <ion-text color="danger" *ngIf="errorMessage">
+        <p>{{ errorMessage }}</p>
+      </ion-text>
     </div>
 
     <div class="flex justify-between mr-6 mb-6">

@@ -20,6 +20,8 @@ export class ProfilePage {
   leaderboardUsers: User[] = [];
   page = 1;
 
+  newUsername = '';
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -70,4 +72,8 @@ export class ProfilePage {
     this.modalController.dismiss();
     this.router.navigate(['/profile', id]);
   }
+
+  changeProfilePicture() {}
+
+  updateProfile() {}
 }

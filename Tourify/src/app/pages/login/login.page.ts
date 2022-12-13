@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserCrudService } from 'app/services/userCrud.service';
 
@@ -7,30 +7,30 @@ import { UserCrudService } from 'app/services/userCrud.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
   email: string | undefined;
   password: string | undefined;
 
+  showPassword = false;
+  errorMessage: string | null = null;
+
   constructor(private router: Router, private userSerive: UserCrudService) {}
-  ngOnInit() {}
 
   signIn() {
-    // validate email, password
-
     if (!this.email || !this.password) {
       return;
     }
 
     this.userSerive.loginUser(this.email, this.password).subscribe((res) => {
-      // TODO show error message
       if (res.message) {
-        console.log(res);
+        this.errorMessage = res.message;
         return;
       } else {
         window.sessionStorage.setItem(
           'current_user',
           JSON.stringify(res.data.user)
         );
+        this.errorMessage = null;
         this.router.navigate(['/tabs']);
       }
     });
@@ -42,5 +42,10 @@ export class LoginPage implements OnInit {
 
   goToForgotPassword() {
     this.router.navigate(['/forgot-password']);
+  }
+
+  togglePassword(event: any) {
+    event.stopPropagation();
+    this.showPassword = !this.showPassword;
   }
 }
