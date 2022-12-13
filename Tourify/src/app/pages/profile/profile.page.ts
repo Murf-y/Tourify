@@ -8,7 +8,7 @@ import { UserCrudService } from 'app/services/userCrud.service';
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage {
   currentUser!: User;
 
   profileUser!: User;
@@ -28,11 +28,13 @@ export class ProfilePage implements OnInit {
 
     this.route.params.subscribe((params) => {
       let id = params['id'];
+      if (id === this.currentUser.id) {
+        this.profileUser = this.currentUser;
+        return;
+      }
       this.userSerivce.getUser(id).subscribe((res) => {
         this.profileUser = res.data.user;
       });
     });
   }
-
-  ngOnInit() {}
 }

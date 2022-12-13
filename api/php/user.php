@@ -86,6 +86,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
             "message" => "User not found"
         ));
     }
+
+    // get with user_id
+} else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
+    $user_id = $_GET['user_id'];
+
+    $sql = "SELECT * FROM users WHERE id = $user_id";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+
+        unset($user['password']);
+        unset($user['email']);
+        echo json_encode(array(
+            "status" => 200,
+            "data" => [
+                "user" => $user
+            ]
+        ));
+    } else {
+        echo json_encode(array(
+            "status" => 404,
+            "message" => "User not found"
+        ));
+    }
 } else {
     echo json_encode(array(
         "status" => 400,
