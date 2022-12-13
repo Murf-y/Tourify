@@ -117,6 +117,8 @@ function addReport($place_id, $user_id, $report_reason)
             ]
         ));
     }
+
+    addCredits($user_id, 10);
 }
 
 
@@ -142,6 +144,12 @@ function addReview($place_id, $user_id, $rating, $review)
     $result = $connection->query($sql);
 
     if ($result) {
+        if ($review != "") {
+            addCredits($user_id, 50);
+        } else {
+            addCredits($user_id, 5);
+        }
+
         echo json_encode(array(
             'status' => 200,
             'data' => [

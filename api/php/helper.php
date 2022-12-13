@@ -41,3 +41,10 @@ function sendEmail($to, $subject, $body)
     $headers = "From: tourify.co@gmail.com";
     mail($to, $subject, $body, $headers);
 }
+
+function addCredits($user_id, $credits)
+{
+    global $connection;
+    $sql = "UPDATE users SET credits = credits + $credits WHERE id = $user_id";
+    $connection->query($sql);
+}
