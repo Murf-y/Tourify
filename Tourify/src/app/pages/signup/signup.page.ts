@@ -17,6 +17,9 @@ export class SignupPage implements OnInit {
   email: string | undefined;
   password: string | undefined;
 
+  showPassword = false;
+  errorMessage: string | null = null;
+
   constructor(private router: Router, private userSerive: UserCrudService) {}
 
   ngOnInit() {}
@@ -32,26 +35,28 @@ export class SignupPage implements OnInit {
       return;
     }
 
-    // TODO show error message
     if (this.username.length < 2) {
+      this.errorMessage = 'Username must be at least 2 characters long';
       return;
     }
 
-    // TODO show error message
     if (!emailValidator(this.email)) {
+      this.errorMessage = 'Invalid email';
       return;
     }
 
-    // TODO show error message
     if (!passwordStrengthValidator(this.password)) {
+      this.errorMessage = 'Password must be at least 8 characters long';
       return;
     }
+
+    this.errorMessage = null;
 
     this.userSerive
       .createUser(this.username, this.email, this.password)
       .subscribe((res) => {
-        // TODO show error message
         if (res.message) {
+          this.errorMessage = res.message;
           console.log(res);
           return;
         } else {
@@ -60,5 +65,10 @@ export class SignupPage implements OnInit {
           this.router.navigate(['/tabs']);
         }
       });
+  }
+
+  togglePassword(event: any) {
+    event.stopPropagation();
+    this.showPassword = !this.showPassword;
   }
 }
