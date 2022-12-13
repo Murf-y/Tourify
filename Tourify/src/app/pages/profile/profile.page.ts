@@ -1,6 +1,7 @@
 import { LocationStrategy } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { User } from 'app/models/user';
 import { UserCrudService } from 'app/services/userCrud.service';
 
@@ -23,7 +24,8 @@ export class ProfilePage {
     private router: Router,
     private route: ActivatedRoute,
     private userSerivce: UserCrudService,
-    private location: LocationStrategy
+    private location: LocationStrategy,
+    private modalController: ModalController
   ) {
     this.currentUser = JSON.parse(
       sessionStorage.getItem('current_user') || '{}'
@@ -62,5 +64,10 @@ export class ProfilePage {
       this.leaderboardUsers = this.leaderboardUsers.concat(res.data.users);
       event.target.complete();
     });
+  }
+
+  goToUser(id: number) {
+    this.modalController.dismiss();
+    this.router.navigate(['/profile', id]);
   }
 }

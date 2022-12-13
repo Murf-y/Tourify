@@ -17,6 +17,8 @@
         <ion-icon
           src="assets/icon/edit_pen.svg"
           *ngIf="viewingOwnProfile"
+          id="open-editprofile-modal"
+          expand="block"
         ></ion-icon>
       </div>
       <div class="flex flex-col gap-3 text-gray text-sm">
@@ -47,6 +49,7 @@
       </div>
     </div>
   </div>
+
   <ion-modal #modal trigger="open-leaderboard-modal">
     <ng-template>
       <ion-header>
@@ -71,7 +74,10 @@
         </div>
 
         <ion-list lines="none" class="mt-4">
-          <ion-item *ngFor="let user of leaderboardUsers; let i = index">
+          <ion-item
+            *ngFor="let user of leaderboardUsers; let i = index"
+            (click)="goToUser(user.id)"
+          >
             <div
               class="w-full mx-4 px-4 bg-gray-200 rounded-xl flex items-center gap-2"
             >
