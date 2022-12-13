@@ -26,7 +26,7 @@
 
         <div
           *ngIf="place.isFavorited; else otherFav"
-          (click)="toggleFavoritePlace()"
+          (click)="toggleFavoritePlace($event)"
           class="cursor-pointer"
         >
           <img src="assets/icon/card_favorite_primary.svg" alt="" />
@@ -35,7 +35,7 @@
           <img
             src="assets/icon/card_favorite.svg"
             alt=""
-            (click)="toggleFavoritePlace()"
+            (click)="toggleFavoritePlace($event)"
             class="cursor-pointer"
           />
         </ng-template>

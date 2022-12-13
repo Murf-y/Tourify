@@ -15,7 +15,8 @@ export class PlaceCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  toggleFavoritePlace() {
+  toggleFavoritePlace(event: { stopPropagation: () => void }) {
+    event.stopPropagation();
     this.toggleFav.emit(this.place);
   }
 
