@@ -54,6 +54,27 @@ export class UserCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
   }
 
+  updateProfilePhoto(
+    user_id: number,
+    base64: string
+  ): Observable<CrudResponse> {
+    const formData = new FormData();
+    formData.append('user_id', user_id.toString());
+    formData.append('profile_photo', base64);
+    return this.httpClient
+      .post<CrudResponse>(this.endpoint, formData)
+      .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
+  }
+
+  updateUsername(user_id: number, username: string): Observable<CrudResponse> {
+    const formData = new FormData();
+    formData.append('user_id', user_id.toString());
+    formData.append('username', username);
+    return this.httpClient
+      .post<CrudResponse>(this.endpoint, formData)
+      .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

@@ -21,6 +21,7 @@ export class ProfilePage {
   page = 1;
 
   newUsername = '';
+  newImage: string | ArrayBuffer | null = '';
 
   constructor(
     private router: Router,
@@ -44,7 +45,7 @@ export class ProfilePage {
       }
       this.userSerivce.getUser(id).subscribe((res) => {
         this.profileUser = res.data.user;
-        console.log(this.profileUser);
+        this.newImage = this.profileUser.profile_photo_url;
       });
     });
   }
@@ -73,7 +74,57 @@ export class ProfilePage {
     this.router.navigate(['/profile', id]);
   }
 
-  changeProfilePicture() {}
+  changeProfilePicture(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.newImage = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
 
-  updateProfile() {}
+  updateProfile() {
+    let base64: string | null = null;
+    if (this.newImage && this.newImage.toString().includes('base64')) {
+      base64 = this.newImage.toString().split(',')[1];
+      this.userSerivce
+        .updateProfilePhoto(this.currentUser.id, base64)
+        .subscribe((res) => {
+          this.currentUser = res.data.user;
+          sessionStorage.setItem(
+            'current_user',
+            JSON.stringify(this.currentUser)
+          );
+          if (this.newUsername !== '') {
+            this.userSerivce
+              .updateUsername(this.currentUser.id, this.newUsername)
+              .subscribe((res) => {
+                this.currentUser = res.data.user;
+                sessionStorage.setItem(
+                  'current_user',
+                  JSON.stringify(this.currentUser)
+                );
+                this.modalController.dismiss();
+              });
+          } else {
+            this.modalController.dismiss();
+          }
+        });
+    } else {
+      if (this.newUsername !== '') {
+        this.userSerivce
+          .updateUsername(this.currentUser.id, this.newUsername)
+          .subscribe((res) => {
+            this.currentUser = res.data.user;
+            sessionStorage.setItem(
+              'current_user',
+              JSON.stringify(this.currentUser)
+            );
+            this.modalController.dismiss();
+          });
+      } else {
+        this.modalController.dismiss();
+      }
+    }
+  }
 }

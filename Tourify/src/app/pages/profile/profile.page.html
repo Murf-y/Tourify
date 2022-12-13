@@ -5,15 +5,15 @@
     (click)="goBack()"
   ></ion-icon>
 
-  <div class="flex w-full justify-start px-4 mt-4 h-28 gap-4">
+  <div class="flex w-full justify-start px-4 mt-4 h-20 gap-4">
     <img
       src="{{profileUser.profile_photo_url}}"
-      class="w-28 rounded-lg border-primary border-2 border-solid"
+      class="w-20 rounded-lg border-primary border-2 border-solid"
       alt="profile photo"
     />
-    <div class="flex flex-col justify-between h-full w-full">
-      <div class="flex w-full justify-between items-center">
-        <h1 class="font-medium text-xl">{{profileUser.username}}</h1>
+    <div class="flex flex-col justify-between h-full w-full gap-4">
+      <div class="flex w-full justify-between items-start">
+        <h1 class="font-medium text-base">{{profileUser.username}}</h1>
         <ion-icon
           src="assets/icon/edit_pen.svg"
           *ngIf="viewingOwnProfile"
@@ -21,7 +21,7 @@
           expand="block"
         ></ion-icon>
       </div>
-      <div class="flex flex-col gap-3 text-gray text-sm">
+      <div class="flex flex-col gap-1 text-gray text-sm">
         <h1>Joined at:</h1>
         <div class="flex gap-2 items-centerh">
           <ion-icon name="calendar-number-outline" class="text-lg"></ion-icon>
@@ -65,14 +65,20 @@
       <ion-content class="relative">
         <div
           class="border-dashed border-gray border-2 gap-4 flex flex-col items-center justify-center m-4 p-4"
-          (click)="changeProfilePicture()"
         >
           <img
-            src="{{profileUser.profile_photo_url}}"
+            [src]="newImage"
             class="w-24 rounded-lg border-primary border-2 border-solid"
             alt="profile photo"
           />
           <h2>Update Profile Picture</h2>
+          <ion-input
+            type="file"
+            accept="image/*"
+            (change)="changeProfilePicture($event)"
+            color="primary"
+          >
+          </ion-input>
         </div>
 
         <ion-item class="mt-6 mx-4">
