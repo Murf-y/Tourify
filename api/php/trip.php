@@ -29,6 +29,8 @@ if (
             "status" => 200,
             "data" => "Trip created successfully"
         ));
+
+        addCredits($user_id, 10);
     } else {
         echo json_encode(array(
             "status" => 500,
