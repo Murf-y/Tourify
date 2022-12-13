@@ -11,7 +11,7 @@ header("Content-Type: application/json; charset=UTF-8");
 // if method is post and there exists a username paramter then create a new user
 // if method is post and there does not exists a username paramter then check if the user exists (login)
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
             ));
         }
     }
-} else if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['username'])) {
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST' && !isset($_POST['username']) && isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -140,6 +140,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
         "status" => 200,
         "data" => [
             "users" => $users
+        ]
+    ));
+} else if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id']) && isset($_POST['profile_photo'])) {
+    $user_id = $_POST['user_id'];
+    $profile_photo = $_POST['profile_photo'];
+
+    // profile photo is a base64 encoded image
+    // decode the image and save it to the server content/assets/user/hash(user_id).jpg
+    $profile_photo = base64_decode($profile_photo);
+    $file = fopen("../content/assets/user/" . md5($user_id . "profile_photo") . ".jpg", "w");
+    fwrite($file, $profile_photo);
+    fclose($file);
+
+    // update the user profile photo
+    // photo url 
+    $profile_photo_url = "http://localhost/tourify/api/content/assets/user/" . md5($user_id . "profile_photo") . ".jpg";
+
+    $sql = "UPDATE users SET profile_photo = '$profile_photo_url' WHERE id = $user_id";
+    $result = $connection->query($sql);
+
+    $sql = "SELECT * FROM users WHERE id = $user_id";
+    $result = $connection->query($sql);
+    $user = $result->fetch_assoc();
+
+    $sql = "SELECT 1 + COUNT(*) AS rank FROM users WHERE credit_score > (SELECT credit_score FROM users WHERE id = $user_id)";
+    $result = $connection->query($sql);
+    $user["rank"] = $result->fetch_assoc()['rank'];
+
+    unset($user['password']);
+
+    echo json_encode(array(
+        "status" => 200,
+        "data" => [
+            "user" => $user
         ]
     ));
 } else {
