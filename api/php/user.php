@@ -86,8 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
             "message" => "User not found"
         ));
     }
-
-    // get with user_id
 } else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];
 
@@ -116,6 +114,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username'])) {
             "message" => "User not found"
         ));
     }
+    // get with page
+} else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['page'])) {
+    $page = $_GET['page'];
+    $limit = 10;
+    $offset = ($page - 1) * $limit;
+
+    $sql = "SELECT * FROM users ORDER BY credit_score DESC LIMIT $limit OFFSET $offset";
+    $result = $connection->query($sql);
+
+    $users = array();
+    while ($row = $result->fetch_assoc()) {
+        unset($row['password']);
+        unset($row['email']);
+        array_push($users, $row);
+    }
+
+    echo json_encode(array(
+        "status" => 200,
+        "data" => [
+            "users" => $users
+        ]
+    ));
 } else {
     echo json_encode(array(
         "status" => 400,

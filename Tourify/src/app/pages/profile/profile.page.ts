@@ -16,6 +16,9 @@ export class ProfilePage {
 
   viewingOwnProfile = false;
 
+  leaderboardUsers: User[] = [];
+  page = 1;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -42,7 +45,22 @@ export class ProfilePage {
     });
   }
 
+  ionViewWillEnter() {
+    this.userSerivce.getLeaderboard(this.page).subscribe((res) => {
+      console.log(res);
+      this.leaderboardUsers = this.leaderboardUsers.concat(res.data.users);
+    });
+  }
   goBack() {
     this.location.back();
+  }
+
+  loadMore(event: any) {
+    this.page++;
+    this.userSerivce.getLeaderboard(this.page).subscribe((res) => {
+      console.log(res);
+      this.leaderboardUsers = this.leaderboardUsers.concat(res.data.users);
+      event.target.complete();
+    });
   }
 }

@@ -1,8 +1,7 @@
 <ion-content class="relative" *ngIf="profileUser">
   <ion-icon
     name="arrow-back"
-    size="large"
-    class="mt-4 ml-4"
+    class="mt-4 ml-4 text-lg"
     (click)="goBack()"
   ></ion-icon>
 
@@ -48,6 +47,67 @@
       </div>
     </div>
   </div>
+  <ion-modal #modal trigger="open-leaderboard-modal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="relative text-center">
+          <ion-title>LeaderBoard</ion-title>
+          <ion-icon
+            name="arrow-back"
+            class="absolute top-3 left-3 text-lg"
+            (click)="modal.dismiss()"
+          ></ion-icon>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div class="flex flex-col w-full items-center gap-4 mt-4">
+          <img
+            src="{{profileUser.profile_photo_url}}"
+            class="w-24 rounded-lg border-primary border-2 border-solid"
+            alt="profile photo"
+          />
+          <h2>Your score: {{profileUser.credit_score}}</h2>
+          <h2>Your rank: {{profileUser.rank}}</h2>
+        </div>
 
-  <div class="absolute bottom-4 left-4 btn btn-outlined">leaderboard</div>
+        <ion-list lines="none" class="mt-4">
+          <ion-item *ngFor="let user of leaderboardUsers; let i = index">
+            <div
+              class="w-full mx-4 px-4 bg-gray-200 rounded-xl flex items-center gap-2"
+            >
+              <h1 class="text-lg">{{i + 1}}</h1>
+              <div class="bg-gray-300 h-12 w-1"></div>
+              <img
+                src="{{user.profile_photo_url}}"
+                alt="user pp"
+                class="w-8 rounded"
+              />
+              <div class="w-full flex justify-between items-center">
+                <h2>{{user.username}}</h2>
+                <h2>{{user.credit_score}}</h2>
+              </div>
+            </div>
+          </ion-item>
+
+          <ion-infinite-scroll
+            threshold="100px"
+            (ionInfinite)="loadMore($event)"
+          >
+            <ion-infinite-scroll-content
+              loadingSpinner="bubbles"
+              loadingText="Loading more users..."
+            >
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+  <div
+    class="absolute bottom-4 left-4 btn btn-outlined"
+    id="open-leaderboard-modal"
+    expand="block"
+  >
+    leaderboard
+  </div>
 </ion-content>

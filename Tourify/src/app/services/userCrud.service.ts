@@ -48,6 +48,12 @@ export class UserCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
   }
 
+  getLeaderboard(page: number) {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?page=' + page)
+      .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
