@@ -1,5 +1,5 @@
 import { LocationStrategy } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { User } from 'app/models/user';
@@ -28,7 +28,8 @@ export class ProfilePage {
     private route: ActivatedRoute,
     private userSerivce: UserCrudService,
     private location: LocationStrategy,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private cdr: ChangeDetectorRef
   ) {
     this.currentUser = JSON.parse(
       sessionStorage.getItem('current_user') || '{}'
@@ -37,7 +38,9 @@ export class ProfilePage {
     if (!this.currentUser || !this.currentUser.id) {
       this.router.navigate(['/login']);
     }
+  }
 
+  ionViewWillEnter() {
     this.route.params.subscribe((params) => {
       let id = params['id'];
       if (id === this.currentUser.id) {
@@ -46,18 +49,16 @@ export class ProfilePage {
       this.userSerivce.getUser(id).subscribe((res) => {
         this.profileUser = res.data.user;
         this.newImage = this.profileUser.profile_photo_url;
+        console.log(this.profileUser);
       });
     });
-  }
-
-  ionViewWillEnter() {
     this.userSerivce.getLeaderboard(this.page).subscribe((res) => {
       console.log(res);
       this.leaderboardUsers = this.leaderboardUsers.concat(res.data.users);
     });
   }
   goBack() {
-    this.location.back();
+    this.router.navigate(['/tabs']);
   }
 
   loadMore(event: any) {
@@ -90,6 +91,7 @@ export class ProfilePage {
       this.userSerivce
         .updateProfilePhoto(this.currentUser.id, base64)
         .subscribe((res) => {
+          console.log(res);
           this.currentUser = res.data.user;
           sessionStorage.setItem(
             'current_user',
@@ -104,10 +106,15 @@ export class ProfilePage {
                   'current_user',
                   JSON.stringify(this.currentUser)
                 );
+                this.profileUser = this.currentUser;
                 this.modalController.dismiss();
+                this.cdr.detectChanges();
               });
           } else {
+            this.profileUser = this.currentUser;
+            this.cdr.detectChanges();
             this.modalController.dismiss();
+            this.cdr.detectChanges();
           }
         });
     } else {
@@ -120,10 +127,13 @@ export class ProfilePage {
               'current_user',
               JSON.stringify(this.currentUser)
             );
+            this.profileUser = this.currentUser;
             this.modalController.dismiss();
+            this.cdr.detectChanges();
           });
       } else {
         this.modalController.dismiss();
+        this.cdr.detectChanges();
       }
     }
   }

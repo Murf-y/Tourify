@@ -153,11 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
     fwrite($file, $profile_photo);
     fclose($file);
 
-    // update the user profile photo
-    // photo url 
+    // update the user profile photo url
     $profile_photo_url = "http://localhost/tourify/api/content/assets/user/" . md5($user_id . "profile_photo") . ".jpg";
 
-    $sql = "UPDATE users SET profile_photo = '$profile_photo_url' WHERE id = $user_id";
+    $sql = "UPDATE users SET profile_photo_url = '$profile_photo_url' WHERE id = $user_id";
     $result = $connection->query($sql);
 
     $sql = "SELECT * FROM users WHERE id = $user_id";
