@@ -28,6 +28,15 @@ export class ResetPasswordCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('postReset')));
   }
 
+  resetPassWithCode(code: string, password: string): Observable<CrudResponse> {
+    let data = new FormData();
+    data.append('code', code);
+    data.append('new_pass', password);
+    return this.httpClient
+      .post<CrudResponse>(this.endpoint, data)
+      .pipe(catchError(this.handleError<CrudResponse>('resetPassWithCode')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

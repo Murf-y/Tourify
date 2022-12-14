@@ -26,7 +26,7 @@ export class ForgotPasswordPage {
     if (this.email === '') {
       this.errorMessage = 'Please enter your email';
     } else {
-      if (this.trials > 30000000) {
+      if (this.trials > 3) {
         this.errorMessage = 'Too many attempts, try again later';
         return;
       }
@@ -35,7 +35,7 @@ export class ForgotPasswordPage {
         if (res.status === 404) {
           this.errorMessage = res.message;
         } else if (res.status === 200) {
-          console.log('All good');
+          this.router.navigate(['/reset-password']);
         } else {
           this.errorMessage = 'Something went wrong';
         }

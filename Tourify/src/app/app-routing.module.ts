@@ -67,7 +67,11 @@ const routes: Routes = [
     path: 'profile/:id',
     loadChildren: () =>
       import('./pages/profile/profile.module').then((m) => m.ProfilePageModule),
+  },  {
+    path: 'reset-password',
+    loadChildren: () => import('./pages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
+
 ];
 @NgModule({
   imports: [
