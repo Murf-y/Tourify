@@ -116,6 +116,12 @@ export class PlaceCrudService {
       .pipe(catchError(this.handleError<CrudResponse>('reportPlace')));
   }
 
+  search(searchTerm: string): Observable<CrudResponse> {
+    return this.httpClient
+      .get<CrudResponse>(this.endpoint + '?search=' + searchTerm)
+      .pipe(catchError(this.handleError<CrudResponse>('search')));
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);

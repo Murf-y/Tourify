@@ -9,14 +9,54 @@
         <img src="{{user.profile_photo_url}}" class="w-10 h-10" />
       </ion-avatar>
     </div>
-
+    <ion-modal #modal trigger="open-search-modal">
+      <ng-template>
+        <ion-content>
+          <div class="flex gap-4 px-4 mt-6 w-full items-center">
+            <ion-icon name="arrow-back"></ion-icon>
+            <div class="relative flex-1">
+              <input
+                #myInput
+                type="search"
+                class="block pl-4 pr-4 pt-2 pb-2 w-full text-sm text-gray-700 bg-gray-light rounded-full focus:outline-none focus:bg-gray-300 focus:shadow placeholder-gray-400 shadow-sm"
+                placeholder="Search Places"
+                required
+                id="open-search-modal"
+                expand="block"
+                [(ngModel)]="searchTerm"
+                (ionChange)="searchChanged()"
+              />
+              <button
+                type="submit"
+                class="text-white absolute right-1 bottom-1 w-7 h-7 rounded-full bg-primary flex items-center justify-center focus:outline-none focus:shadow-outline hover:bg-primary-dark"
+              >
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
     <div class="relative pl-4 pr-4 mt-6">
       <input
         type="search"
-        id="default-search"
         class="block pl-4 pr-4 pt-2 pb-2 w-full text-sm text-gray-700 bg-gray-light rounded-full focus:outline-none focus:bg-gray-300 focus:shadow placeholder-gray-400 shadow-sm"
         placeholder="Search Places"
-        required
+        id="open-search-modal"
+        expand="block"
       />
       <button
         type="submit"

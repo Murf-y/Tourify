@@ -32,6 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_G
             getAllPlaces($user_id);
         }
     }
+} else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['search']) && isset($_GET['user_id'])) {
+    $search = $_GET['search'];
+    $user_id = $_GET['user_id'];
+    searchPlaces($search, $user_id);
+    return;
 } else if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && isset($_GET['place_id'])) {
 
     $user_id = $_GET['user_id'];
@@ -454,4 +459,34 @@ function removePlaceFromFavorites($place_id, $user_id)
             ]
         ));
     }
+}
+
+function searchPlaces($search, $user_id)
+{
+    // use the search term to search for places
+    // in the name, overview, or address
+
+    global $connection;
+    global $server_host;
+
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE places.name LIKE '%$search%' OR places.overview LIKE '%$search%' OR places.address LIKE '%$search%'";
+    $result = $connection->query($sql);
+
+    // for each place, get the category
+    $places = [];
+    while ($row = $result->fetch_assoc()) {
+        $row['category'] = getCategoryById($row['category_id']);
+        // replace the category_id with the category object
+        unset($row['category_id']);
+        $row['isFavorited'] = $row['isFavorited'] == 1;
+        $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
+        $places[] = $row;
+    }
+
+    echo json_encode(array(
+        'status' => 200,
+        'data' => [
+            "places" => $places
+        ]
+    ));
 }

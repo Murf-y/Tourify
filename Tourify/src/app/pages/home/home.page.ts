@@ -25,6 +25,9 @@ export class HomePage {
 
   categories!: Category[];
 
+  searchTerm = '';
+  searchResults: Place[] = [];
+
   constructor(
     private router: Router,
     private categoryService: CategoryCrudService,
@@ -84,5 +87,15 @@ export class HomePage {
 
   goToProfile() {
     this.router.navigate(['/profile', this.user.id]);
+  }
+
+  searchChanged() {
+    if (!this.searchTerm) {
+      return;
+    }
+
+    this.placeService.search(this.searchTerm).subscribe((res) => {
+      this.searchResults = res.data.places;
+    });
   }
 }
