@@ -16,15 +16,10 @@
             <ion-icon name="arrow-back"></ion-icon>
             <div class="relative flex-1">
               <input
-                #myInput
                 type="search"
                 class="block pl-4 pr-4 pt-2 pb-2 w-full text-sm text-gray-700 bg-gray-light rounded-full focus:outline-none focus:bg-gray-300 focus:shadow placeholder-gray-400 shadow-sm"
                 placeholder="Search Places"
-                required
-                id="open-search-modal"
-                expand="block"
-                [(ngModel)]="searchTerm"
-                (ionChange)="searchChanged()"
+                (keyup)="onKeyUp($event)"
               />
               <button
                 type="submit"
@@ -47,6 +42,17 @@
               </button>
             </div>
           </div>
+
+          <ion-list lines="dashed">
+            <ion-item
+              *ngFor="let place of searchResults"
+              (click)="goToPlace(place)"
+              class="flex my-2"
+            >
+              <img src="{{place.photo_url}}" class="w-10 rounded" />
+              <h2 class="font-medium text-base ml-2">{{place.name}}</h2>
+            </ion-item>
+          </ion-list>
         </ion-content>
       </ng-template>
     </ion-modal>

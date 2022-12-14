@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Category } from 'app/models/category';
 import { Place } from 'app/models/place';
 import { User } from 'app/models/user';
@@ -25,13 +26,13 @@ export class HomePage {
 
   categories!: Category[];
 
-  searchTerm = '';
   searchResults: Place[] = [];
 
   constructor(
     private router: Router,
     private categoryService: CategoryCrudService,
-    private placeService: PlaceCrudService
+    private placeService: PlaceCrudService,
+    private modalController: ModalController
   ) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
 
@@ -89,12 +90,18 @@ export class HomePage {
     this.router.navigate(['/profile', this.user.id]);
   }
 
-  searchChanged() {
-    if (!this.searchTerm) {
+  goToPlace(place: Place) {
+    this.modalController.dismiss();
+    this.router.navigate(['/place', place.id]);
+  }
+
+  onKeyUp(event: any) {
+    let search = event.target.value;
+    if (!search || search.length < 3) {
       return;
     }
 
-    this.placeService.search(this.searchTerm).subscribe((res) => {
+    this.placeService.search(search, this.user.id).subscribe((res) => {
       this.searchResults = res.data.places;
     });
   }
