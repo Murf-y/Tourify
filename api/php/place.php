@@ -2,7 +2,7 @@
 
 include_once "connection.php";
 include("helper.php");
-
+include("constants.php");
 
 // allow cors and json response type in one line
 header("Access-Control-Allow-Origin: *");
@@ -169,6 +169,8 @@ function addReview($place_id, $user_id, $rating, $review)
 function getPlaceById($place_id, $user_id)
 {
     global $connection;
+    global $server_host;
+
     $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE places.id = $place_id";
     $result = $connection->query($sql);
 
@@ -182,6 +184,8 @@ function getPlaceById($place_id, $user_id)
 
     $place['reviews'] = getReviewsByPlaceId($place_id);
 
+    $place['photo_url'] = "http://" . $server_host . $place['photo_url'];
+
     echo json_encode(array(
         'status' => 200,
         'data' => [
@@ -193,6 +197,7 @@ function getPlaceById($place_id, $user_id)
 function getAllPlaces($user_id)
 {
     global $connection;
+    global $server_host;
     $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id";
     $result = $connection->query($sql);
 
@@ -203,6 +208,7 @@ function getAllPlaces($user_id)
         // replace the category_id with the category object
         unset($row['category_id']);
         $row['isFavorited'] = $row['isFavorited'] == 1;
+        $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
         $places[] = $row;
     }
 
@@ -217,6 +223,7 @@ function getAllPlaces($user_id)
 function getPlacesByCategory($category_id, $user_id)
 {
     global $connection;
+    global $server_host;
     $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE category_id = $category_id";
     $result = $connection->query($sql);
 
@@ -227,6 +234,7 @@ function getPlacesByCategory($category_id, $user_id)
         // replace the category_id with the category object
         unset($row['category_id']);
         $row['isFavorited'] = $row['isFavorited'] == 1;
+        $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
         $places[] = $row;
     }
 
@@ -242,6 +250,7 @@ function getPopularPlacesByCategory($category_id, $user_id)
 {
     // sort by rating 
     global $connection;
+    global $server_host;
 
     // first select all places
     $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE category_id = $category_id";
@@ -268,6 +277,7 @@ function getPopularPlacesByCategory($category_id, $user_id)
         $row2 = $result2->fetch_assoc();
         $row['favorites_count'] = $row2['favorites_count'];
 
+        $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
         $places[] = $row;
     }
 
@@ -292,6 +302,7 @@ function getPopularPlaces($user_id)
 {
     // sort by rating 
     global $connection;
+    global $server_host;
 
     // first select all places
     $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id";
@@ -317,6 +328,7 @@ function getPopularPlaces($user_id)
         $result2 = $connection->query($sql);
         $row2 = $result2->fetch_assoc();
         $row['favorites_count'] = $row2['favorites_count'];
+        $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
         $places[] = $row;
     }
 
@@ -345,6 +357,7 @@ function getLatestPlaces($user_id)
 
 
     global $connection;
+    global $server_host;
     $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id ORDER BY added_at DESC";
     $result = $connection->query($sql);
 
@@ -356,6 +369,7 @@ function getLatestPlaces($user_id)
         // replace the category_id with the category object
         unset($row['category_id']);
         $row['isFavorited'] = $row['isFavorited'] == 1;
+        $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
         $places[] = $row;
     }
 
@@ -370,6 +384,7 @@ function getLatestPlaces($user_id)
 function getFavoritePlaces($user_id)
 {
     global $connection;
+    global $server_host;
     $sql = "SELECT places.* FROM places INNER JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id";
     $result = $connection->query($sql);
 
@@ -381,6 +396,7 @@ function getFavoritePlaces($user_id)
         // replace the category_id with the category object
         unset($row['category_id']);
         $row['isFavorited'] = true;
+        $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
         $places[] = $row;
     }
 

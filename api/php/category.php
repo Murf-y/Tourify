@@ -1,5 +1,6 @@
 <?php
 include_once 'connection.php';
+include('constants.php');
 
 // allow cors and json response type in one line
 header("Access-Control-Allow-Origin: *");
@@ -14,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // for each category create a new object and add it to the categories array
     $categories = [];
     while ($category = $result->fetch_assoc()) {
-        $category['image_path'] = "http://localhost/tourify/api/content/assets/categories/" . $category['id'] . ".png";
+        $category['image_path'] = "http://" . $server_host . "/tourify/api/content/assets/categories/" . $category['id'] . ".png";
         array_push($categories, $category);
     }
 

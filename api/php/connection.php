@@ -28,7 +28,7 @@ $connection->query("CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(50) NOT NULL,
     password TEXT NOT NULL,
     joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    profile_photo_url TEXT NOT NULL DEFAULT 'http://localhost/tourify/api/content/assets/user/avatar.svg',
+    profile_photo_url TEXT NOT NULL DEFAULT '/tourify/api/content/assets/user/avatar.svg',
     credit_score INT(6) NOT NULL DEFAULT 0
 )");
 

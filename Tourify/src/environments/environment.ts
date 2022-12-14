@@ -2,10 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const server_host = 'http://192.168.1.173';
 export const environment = {
   production: false,
-  server_path: 'http://localhost/tourify/api/php/',
-  assets_path: 'http://localhost/tourify/api/content/assets/',
+  server_path: server_host + '/tourify/api/php/',
+  assets_path: server_host + '/tourify/api/content/assets/',
 };
 
 /*

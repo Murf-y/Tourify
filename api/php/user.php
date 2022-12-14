@@ -2,6 +2,8 @@
 
 include_once 'connection.php';
 
+include('constants.php');
+
 // allow cors and json response type in one line
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
@@ -45,6 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
             // remove password from the user object
             unset($user['password']);
 
+            $user['profile_photo_url'] = "http://" . $server_host . $user['profile_photo_url'];
+
             echo json_encode(array(
                 "status" => 201,
                 "data" => [
@@ -74,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
 
         // remove password from the user object
         unset($user['password']);
+
+        $user['profile_photo_url'] = "http://" . $server_host . $user['profile_photo_url'];
+
         echo json_encode(array(
             "status" => 200,
             "data" => [
@@ -102,6 +109,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
 
         unset($user['password']);
         unset($user['email']);
+
+        $user['profile_photo_url'] = "http://" . $server_host . $user['profile_photo_url'];
+
         echo json_encode(array(
             "status" => 200,
             "data" => [
@@ -133,6 +143,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
 
         unset($row['password']);
         unset($row['email']);
+
+        $row['profile_photo_url'] = "http://" . $server_host . $row['profile_photo_url'];
+
         array_push($users, $row);
     }
 
@@ -153,8 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
     fwrite($file, $profile_photo);
     fclose($file);
 
-    // update the user profile photo url
-    $profile_photo_url = "http://localhost/tourify/api/content/assets/user/" . md5($user_id . "profile_photo") . ".jpg";
+    $profile_photo_url = "/tourify/api/content/assets/user/" . md5($user_id . "profile_photo") . ".jpg";
 
     $sql = "UPDATE users SET profile_photo_url = '$profile_photo_url' WHERE id = $user_id";
     $result = $connection->query($sql);
@@ -168,6 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
     $user["rank"] = $result->fetch_assoc()['rank'];
 
     unset($user['password']);
+    $user['profile_photo_url'] = "http://" . $server_host . $user['profile_photo_url'];
 
     echo json_encode(array(
         "status" => 200,

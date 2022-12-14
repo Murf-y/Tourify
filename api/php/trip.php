@@ -2,6 +2,7 @@
 
 include_once 'connection.php';
 include('helper.php');
+include('constants.php');
 
 // allow cors and json response type in one line
 header("Access-Control-Allow-Origin: *");
@@ -87,6 +88,7 @@ if (
             $places_result = $connection->query($sql);
             $places = array();
             while ($place_row = $places_result->fetch_assoc()) {
+                $place_row['photo_url'] = "http://" . $server_host . $place_row['photo_url'];
                 array_push($places, $place_row);
             }
             $row['places'] = $places;
@@ -124,6 +126,7 @@ if (
         $place_id = $place_row['id'];
         $place_row['category'] = getCategoryById($place_id);
         unset($place_row['category_id']);
+        $place_row['photo_url'] = "http://" . $server_host . $place_row['photo_url'];
         array_push($places, $place_row);
     }
     $trip['places'] = $places;
