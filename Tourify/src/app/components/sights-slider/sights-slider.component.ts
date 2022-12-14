@@ -13,7 +13,7 @@ export class SightsSliderComponent {
   @Input() places: Place[] = [];
   @Input() slideOpts = {
     slidesPerView: 1.5,
-    spaceBetween: 20,
+    spaceBetween: 10,
   };
 
   user!: User;
