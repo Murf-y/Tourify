@@ -1,64 +1,66 @@
 <!-- remove scrollbar from appearing -->
 <ion-content [scrollY]="true">
-  <div class="flex justify-between items-center mt-4 pl-4 pr-1">
-    <div>
-      <h1 class="text-xl">Discover</h1>
+  <div class="flex flex-col h-full">
+    <div class="flex justify-between items-center mt-4 pl-4 pr-1">
+      <div>
+        <h1 class="text-xl">Discover</h1>
+      </div>
+      <ion-avatar class="flex items-center" (click)="goToProfile()">
+        <img src="{{user.profile_photo_url}}" class="w-10 h-10" />
+      </ion-avatar>
     </div>
-    <ion-avatar class="flex items-center" (click)="goToProfile()">
-      <img src="{{user.profile_photo_url}}" class="w-10 h-10" />
-    </ion-avatar>
-  </div>
 
-  <div class="relative pl-4 pr-4 mt-6">
-    <input
-      type="search"
-      id="default-search"
-      class="block pl-4 pr-4 pt-2 pb-2 w-full text-sm text-gray-700 bg-gray-light rounded-full focus:outline-none focus:bg-gray-300 focus:shadow placeholder-gray-400 shadow-sm"
-      placeholder="Search Places"
-      required
-    />
-    <button
-      type="submit"
-      class="text-white absolute right-5 bottom-1 w-7 h-7 rounded-full bg-primary flex items-center justify-center focus:outline-none focus:shadow-outline hover:bg-primary-dark"
-    >
-      <svg
-        class="w-4 h-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
+    <div class="relative pl-4 pr-4 mt-6">
+      <input
+        type="search"
+        id="default-search"
+        class="block pl-4 pr-4 pt-2 pb-2 w-full text-sm text-gray-700 bg-gray-light rounded-full focus:outline-none focus:bg-gray-300 focus:shadow placeholder-gray-400 shadow-sm"
+        placeholder="Search Places"
+        required
+      />
+      <button
+        type="submit"
+        class="text-white absolute right-5 bottom-1 w-7 h-7 rounded-full bg-primary flex items-center justify-center focus:outline-none focus:shadow-outline hover:bg-primary-dark"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        ></path>
-      </svg>
-    </button>
-  </div>
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          ></path>
+        </svg>
+      </button>
+    </div>
 
-  <ion-segment
-    class="mt-4 text-xs"
-    scrollable="true"
-    [(ngModel)]="filter"
-    (ionChange)="segmentChanged($event)"
-    mode="md"
-  >
-    <ion-segment-button value="all">
-      <p class="text-[0.6rem]">all</p>
-    </ion-segment-button>
-    <ion-segment-button value="popular">
-      <p class="text-[0.6rem]">popular</p>
-    </ion-segment-button>
-    <ion-segment-button value="latest">
-      <p class="text-[0.6rem]">latest</p>
-    </ion-segment-button>
-  </ion-segment>
+    <ion-segment
+      class="mt-4 text-xs"
+      scrollable="true"
+      [(ngModel)]="filter"
+      (ionChange)="segmentChanged($event)"
+      mode="md"
+    >
+      <ion-segment-button value="all">
+        <p class="text-[0.6rem]">all</p>
+      </ion-segment-button>
+      <ion-segment-button value="popular">
+        <p class="text-[0.6rem]">popular</p>
+      </ion-segment-button>
+      <ion-segment-button value="latest">
+        <p class="text-[0.6rem]">latest</p>
+      </ion-segment-button>
+    </ion-segment>
 
-  <div class="mt-4 ml-4 flex justify-between flex-col">
-    <sights-slider [places]="places"></sights-slider>
-    <h2 class="font-medium text-xl">Categories</h2>
-    <categories-slider [categories]="categories"></categories-slider>
+    <div class="mt-4 ml-4 flex justify-around flex-col flex-1">
+      <sights-slider [places]="places"></sights-slider>
+      <h2 class="font-medium text-xl">Categories</h2>
+      <categories-slider [categories]="categories"></categories-slider>
+    </div>
   </div>
 </ion-content>
