@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <ion-modal #modal trigger="open-editprofile-modal">
+  <ion-modal #modalProfile trigger="open-editprofile-modal">
     <ng-template>
       <ion-header>
         <ion-toolbar class="relative text-center">
@@ -58,7 +58,7 @@
           <ion-icon
             name="arrow-back"
             class="absolute top-3 left-3 text-lg"
-            (click)="modal.dismiss()"
+            (click)="modalProfile.dismiss()"
           ></ion-icon>
         </ion-toolbar>
       </ion-header>
@@ -100,7 +100,7 @@
     </ng-template>
   </ion-modal>
 
-  <ion-modal #modal trigger="open-leaderboard-modal">
+  <ion-modal #modalLead trigger="open-leaderboard-modal">
     <ng-template>
       <ion-header>
         <ion-toolbar class="relative text-center">
@@ -108,7 +108,7 @@
           <ion-icon
             name="arrow-back"
             class="absolute top-3 left-3 text-lg"
-            (click)="modal.dismiss()"
+            (click)="modalLead.dismiss()"
           ></ion-icon>
         </ion-toolbar>
       </ion-header>
@@ -127,6 +127,7 @@
           <ion-item
             *ngFor="let user of leaderboardUsers; let i = index"
             (click)="goToUser(user.id)"
+            class="my-2"
           >
             <div
               class="w-full mx-4 px-4 bg-gray-200 rounded-xl flex items-center gap-2"

@@ -1,7 +1,7 @@
 <?php
 
 include_once "connection.php";
-
+include("constants.php");
 function getCategoryById($id)
 {
     global $connection;
@@ -31,9 +31,12 @@ function getReviewsByPlaceId($place_id)
 function getUserById($id)
 {
     global $connection;
+    global $server_host;
     $sql = "SELECT * FROM users WHERE id = $id";
     $result = $connection->query($sql);
-    return $result->fetch_assoc();
+    $user = $result->fetch_assoc();
+    $user['profile_photo_url'] = "http://" . $server_host . $user['profile_photo_url'];
+    return $user;
 }
 
 function sendEmail($to, $subject, $body)
@@ -45,6 +48,6 @@ function sendEmail($to, $subject, $body)
 function addCredits($user_id, $credits)
 {
     global $connection;
-    $sql = "UPDATE users SET credits = credits + $credits WHERE id = $user_id";
+    $sql = "UPDATE users SET credit_score = credit_score + $credits WHERE id = $user_id";
     $connection->query($sql);
 }
