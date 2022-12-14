@@ -72,10 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
     if ($result->num_rows > 0) {
         $reset_token = $result->fetch_assoc();
 
-        // check if valid_until is not expired
+
         if (strtotime($reset_token['valid_until']) > time()) {
             $email = $reset_token['email'];
 
+            $new_pass = md5($new_pass);
             $sql = "UPDATE users SET password = '$new_pass' WHERE email = '$email'";
             $connection->query($sql);
 
