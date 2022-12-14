@@ -1,5 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap } from '@capacitor/google-maps';
+import { Router } from '@angular/router';
+import { GoogleMap, Marker } from '@capacitor/google-maps';
+import { Place } from 'app/models/place';
+import { User } from 'app/models/user';
+import { PlaceCrudService } from 'app/services/placeCrud.service';
 import { environment } from 'environments/environment';
 
 @Component({
@@ -13,9 +17,24 @@ export class MapPage {
 
   map!: GoogleMap;
 
-  constructor() {}
+  user!: User;
+
+  places: Place[] = [];
+
+  markerPlaceMap: Map<Marker, Place> = new Map();
+
+  constructor(private placeService: PlaceCrudService, private router: Router) {
+    this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
+
+    if (!this.user || !this.user.id) {
+      this.router.navigate(['login']);
+    }
+  }
 
   ionViewDidEnter() {
+    this.placeService.getAll(this.user.id).subscribe((res) => {
+      this.places = res.data.places;
+    });
     this.createMap();
   }
 
@@ -33,6 +52,27 @@ export class MapPage {
         zoom: 8,
       },
     });
+
+    this.addMarker();
+  }
+
+  async addMarker() {
+    const marker: Marker[] = [
+      {
+        coordinate: {
+          lat: 34.11538,
+          lng: 35.667801,
+        },
+        title: 'Hello World!',
+        snippet: 'This is a cool place',
+      },
+    ];
+
+    this.map.setOnMarkerClickListener((marker) => {
+      console.log(marker);
+    });
+
+    await this.map.addMarkers(marker);
   }
   // onMapReady(map: google.maps.Map) {
   //   const marker = new google.maps.Marker({

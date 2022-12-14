@@ -52,6 +52,8 @@ $connection->query("CREATE TABLE IF NOT EXISTS places (
     city VARCHAR(255) NOT NULL,
     photo_url VARCHAR(255) NOT NULL,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    latitude FLOAT(10,6) NOT NULL,
+    longitude FLOAT(10,6) NOT NULL,
     category_id INT(6) UNSIGNED NOT NULL,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 )");
