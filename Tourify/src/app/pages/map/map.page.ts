@@ -21,7 +21,7 @@ export class MapPage {
 
   places: Place[] = [];
 
-  markerPlaceMap: Map<Marker, Place> = new Map();
+  markerPlaceMap: Map<string, Place> = new Map();
 
   constructor(private placeService: PlaceCrudService, private router: Router) {
     this.user = JSON.parse(sessionStorage.getItem('current_user') || '{}');
@@ -40,7 +40,7 @@ export class MapPage {
 
   async createMap() {
     this.map = await GoogleMap.create({
-      id: 'cool-id',
+      id: 'map-canvas-id',
       apiKey: environment.mapsKey,
       element: this.mapRef.nativeElement,
       forceCreate: true,
@@ -49,7 +49,7 @@ export class MapPage {
           lat: 34.11538,
           lng: 35.667801,
         },
-        zoom: 8,
+        zoom: 10,
       },
     });
 
@@ -57,19 +57,33 @@ export class MapPage {
   }
 
   async addMarker() {
-    const marker: Marker[] = [
-      {
+    const marker: Marker[] = [];
+
+    this.places.forEach((place) => {
+      const newMarker: Marker = {
         coordinate: {
-          lat: 34.11538,
-          lng: 35.667801,
+          lat: parseFloat(place.latitude),
+          lng: parseFloat(place.longitude),
         },
-        title: 'Hello World!',
-        snippet: 'This is a cool place',
-      },
-    ];
+        title: place.name,
+        snippet: place.overview,
+      };
+      newMarker.draggable = false;
+      newMarker.title = place.name;
+
+      marker.push(newMarker);
+      let identifier =
+        newMarker.coordinate.lat.toString() +
+        newMarker.coordinate.lng.toString();
+      this.markerPlaceMap.set(identifier, place);
+    });
 
     this.map.setOnMarkerClickListener((marker) => {
-      console.log(marker);
+      let identifier = marker.latitude.toString() + marker.longitude.toString();
+      let place = this.markerPlaceMap.get(identifier);
+      if (place) {
+        this.router.navigate(['place', place.id]);
+      }
     });
 
     await this.map.addMarkers(marker);

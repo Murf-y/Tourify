@@ -13,4 +13,6 @@ export interface Place {
   added_at: string;
   tags: string[];
   isFavorited: boolean;
+  latitude: string;
+  longitude: string;
 }
