@@ -1,5 +1,11 @@
 <?php
 
+// allow cors and json response type in one line
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json; charset=UTF-8");
+
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = null;
@@ -97,3 +103,18 @@ $connection->query("CREATE TABLE IF NOT EXISTS favorites (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (place_id) REFERENCES places(id)
 )");
+
+
+$connection->query("CREATE TABLE IF NOT EXISTS password_resets (
+    id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    token TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    valid_until TIMESTAMP NOT NULL DEFAULT TIMESTAMPADD(MINUTE, 7, CURRENT_TIMESTAMP) 
+)");
+
+// create a trigger to update valid_until column when token is updated
+$connection->query("CREATE TRIGGER IF NOT EXISTS update_valid_until 
+    BEFORE UPDATE ON password_resets
+    FOR EACH ROW
+    SET NEW.valid_until = TIMESTAMPADD(MINUTE, 7, CURRENT_TIMESTAMP)");

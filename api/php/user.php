@@ -2,6 +2,7 @@
 
 include_once 'connection.php';
 
+include('helper.php');
 include('constants.php');
 
 // allow cors and json response type in one line
