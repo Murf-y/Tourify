@@ -72,8 +72,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
     if ($result->num_rows > 0) {
         $reset_token = $result->fetch_assoc();
 
+        $valid_until = $reset_token['valid_until'];
 
-        if (strtotime($reset_token['valid_until']) > time()) {
+
+        $current = new DateTime();
+        $current->add(new DateInterval('PT1H'));
+        $valid_until_time = new DateTime();
+        $valid_until_time->setTimestamp(strtotime($valid_until));
+
+        $is_valid = $current < $valid_until_time;
+
+        if ($is_valid) {
             $email = $reset_token['email'];
 
             $new_pass = md5($new_pass);
@@ -89,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
             ));
         } else {
             echo json_encode(array(
-                "status" => 404,
+                "status" => 403,
                 "message" => "Code expired, send a new code"
             ));
         }

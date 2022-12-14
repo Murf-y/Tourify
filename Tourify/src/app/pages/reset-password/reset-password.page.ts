@@ -39,7 +39,7 @@ export class ResetPasswordPage {
 
     if (!passwordStrengthValidator(this.newPass)) {
       this.errorMessage =
-        'At least 6 characters, 1 uppercase, 1 lowercase, 1 number';
+        'Password must be at least 6 characters, 1 uppercase, 1 lowercase, 1 number';
       return;
     }
 
@@ -51,6 +51,13 @@ export class ResetPasswordPage {
           this.router.navigate(['/login']);
         } else {
           this.errorMessage = res.message;
+
+          if (res.status === 403) {
+            // wait 5 seconds and navigate to forgot password
+            setTimeout(() => {
+              this.router.navigate(['/forgot-password']);
+            }, 5000);
+          }
         }
       });
   }
