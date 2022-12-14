@@ -49,7 +49,7 @@ function getUserById($id)
 
 function sendEmail($to, $subject, $body)
 {
-    $headers = "From: tourify.co@gmail.com";
+    $headers = "From: tourify.in@gmail.com\r\n";
     mail($to, $subject, $body, $headers);
 }
 

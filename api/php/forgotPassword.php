@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        $sql = "SELECT * FROM password_resets WHERE email = " . $user['email'];
+        $sql = "SELECT * FROM password_resets WHERE email = '$email'";
         $result = $connection->query($sql);
 
         // user has a reset token update the token
@@ -34,6 +34,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
             $sql = "UPDATE password_resets SET token = '$reset_token' WHERE id=$reset_token_id";
 
             sendEmail($email, "Password Reset", "Your Reset Code is $reset_token \n Do not share this code with anyone \n Best Regards, \n Tourify Team");
+
+            $connection->query($sql);
+
+            echo json_encode(array(
+                "status" => 200,
+                "message" => "Reset code sent to your email"
+            ));
         } else {
             // create a new reset token
             $reset_token = substr(uniqid(), -8);
@@ -41,11 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['email'])) {
             $sql = "INSERT INTO password_resets (email, token) VALUES ('$email', '$reset_token')";
 
             sendEmail($email, "Password Reset", "Your Reset Code is $reset_token \n Do not share this code with anyone \n Best Regards, \n Tourify Team");
+
+            $result = $connection->query($sql);
+
+            echo json_encode(array(
+                "status" => 200,
+                "message" => "Reset code sent to your email"
+            ));
         }
     } else {
         echo json_encode(array(
             "status" => 404,
-            "message" => "User not found"
+            "message" => "This email is not registered"
         ));
     }
 } else {

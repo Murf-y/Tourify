@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { environment } from 'environments/environment';
+import { Injectable } from '@angular/core';
 import { CrudResponse } from 'app/models/crud';
+import { environment } from 'environments/environment';
+import { catchError, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryCrudService {
-  endpoint = environment.server_path + 'category.php';
+export class ResetPasswordCrudService {
+  endpoint = environment.server_path + 'forgotPassword.php';
 
+  // add cross origin headers
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -21,10 +20,12 @@ export class CategoryCrudService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getAll(): Observable<CrudResponse> {
+  postReset(email: string): Observable<CrudResponse> {
+    let data = new FormData();
+    data.append('email', email);
     return this.httpClient
-      .get<CrudResponse>(this.endpoint)
-      .pipe(catchError(this.handleError<CrudResponse>('Error occured')));
+      .post<CrudResponse>(this.endpoint, data)
+      .pipe(catchError(this.handleError<CrudResponse>('postReset')));
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

@@ -14,7 +14,10 @@ export class UserCrudService {
   endpoint = environment.server_path + 'user.php';
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    }),
   };
 
   constructor(private httpClient: HttpClient) {}
