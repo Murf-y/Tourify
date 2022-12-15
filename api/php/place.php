@@ -10,7 +10,7 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_GET['place_id'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['user_id']) && !isset($_GET['place_id']) && !isset($_GET['search'])) {
 
     $user_id = $_GET['user_id'];
 
@@ -469,8 +469,11 @@ function searchPlaces($search, $user_id)
     global $connection;
     global $server_host;
 
-    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE places.name LIKE '%$search%' OR places.overview LIKE '%$search%' OR places.address LIKE '%$search%'";
+
+    $search = $connection->real_escape_string($search);
+    $sql = "SELECT places.*, IF(favorites.id IS NULL, false, true) AS isFavorited FROM places LEFT JOIN favorites ON places.id = favorites.place_id AND favorites.user_id = $user_id WHERE places.name LIKE '%$search%' OR places.overview LIKE '%$search%' OR places.city LIKE '%$search%'";
     $result = $connection->query($sql);
+
 
     // for each place, get the category
     $places = [];
@@ -478,7 +481,13 @@ function searchPlaces($search, $user_id)
         $row['category'] = getCategoryById($row['category_id']);
         // replace the category_id with the category object
         unset($row['category_id']);
-        $row['isFavorited'] = $row['isFavorited'] == 1;
+
+        // add isFavorited 
+        $place_id_2 = $row['id'];
+        $sql = "SELECT * FROM favorites WHERE place_id = $place_id_2 AND user_id = $user_id";
+        $result2 = $connection->query($sql);
+        $row['isFavorited'] = $result2->num_rows > 0;
+
         $row['photo_url'] = "http://" . $server_host . $row['photo_url'];
         $places[] = $row;
     }
