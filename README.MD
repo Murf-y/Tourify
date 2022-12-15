@@ -48,6 +48,32 @@ cd Tourify/api
 
 run the **_run_once.php_** file to create the database and tables and insert the categories and places.
 
+<h1>Emails 📧</h1>
+
+For emails to work, you need to add your own email and password in the **_sendmail.ini_** file, and you need to set the following settings in php.ini file:
+
+<pre>
+[mail function]
+SMTP=smtp.gmail.com
+smtp_port=587
+sendmail_from = tourify.in@gmail.com
+sendmail_path = "\"C:\xampp\sendmail\sendmail.exe\" -t"
+</pre>
+
+In the **_sendmail.ini_** file, you need to add your email and password:
+
+<pre>
+[sendmail]
+
+smtp_server=smtp.gmail.com
+smtp_port=587
+error_logfile=error.log
+debug_logfile=debug.log
+auth_username=tourify.in@gmail.com
+auth_password=gmail_password  <- PUT PASSWORD HERE
+force_sender=tourify.in@gmail.com
+</pre>
+
 <h1> Database Schema 📊</h1>
 <img src="ER_diagram/image.png">
 
