@@ -41,7 +41,7 @@ export class MapPage {
   async createMap() {
     this.map = await GoogleMap.create({
       id: 'map-canvas-id',
-      apiKey: environment.mapsKey,
+      apiKey: environment.MAP_API_KEY,
       element: this.mapRef.nativeElement,
       forceCreate: true,
       config: {
