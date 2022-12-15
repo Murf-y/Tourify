@@ -71,7 +71,7 @@ export class CreateTripPage implements OnInit {
         .subscribe((response) => {
           console.log(response);
           if (response.status === 200) {
-            this.router.navigate(['/tabs/trips']);
+            this.router.navigate(['/tabs/home']);
           } else {
             this.isThereError = true;
             this.errorMessage = response.message;

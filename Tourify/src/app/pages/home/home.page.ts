@@ -95,14 +95,27 @@ export class HomePage {
     this.router.navigate(['/place', place.id]);
   }
 
+  submitSearch(searchInput: any) {
+    this.searchResults = [];
+    let search = searchInput.value;
+    if (!search || search.length < 3) {
+      return;
+    }
+    this.preformSearch(search);
+  }
+
+  preformSearch(search: string) {
+    this.placeService.search(search, this.user.id).subscribe((res) => {
+      this.searchResults = res.data.places;
+    });
+  }
+
   onKeyUp(event: any) {
+    this.searchResults = [];
     let search = event.target.value;
     if (!search || search.length < 3) {
       return;
     }
-
-    this.placeService.search(search, this.user.id).subscribe((res) => {
-      this.searchResults = res.data.places;
-    });
+    this.preformSearch(search);
   }
 }

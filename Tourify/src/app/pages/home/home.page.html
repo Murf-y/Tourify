@@ -13,9 +13,10 @@
       <ng-template>
         <ion-content>
           <div class="flex gap-4 px-4 mt-6 w-full items-center">
-            <ion-icon name="arrow-back"></ion-icon>
+            <ion-icon name="arrow-back" (click)="modal.dismiss()"></ion-icon>
             <div class="relative flex-1">
               <input
+                #searchInput
                 type="search"
                 class="block pl-4 pr-4 pt-2 pb-2 w-full text-sm text-gray-700 bg-gray-light rounded-full focus:outline-none focus:bg-gray-300 focus:shadow placeholder-gray-400 shadow-sm"
                 placeholder="Search Places"
@@ -24,6 +25,7 @@
               <button
                 type="submit"
                 class="text-white absolute right-1 bottom-1 w-7 h-7 rounded-full bg-primary flex items-center justify-center focus:outline-none focus:shadow-outline hover:bg-primary-dark"
+                (click)="submitSearch(searchInput)"
               >
                 <svg
                   class="w-4 h-4"
